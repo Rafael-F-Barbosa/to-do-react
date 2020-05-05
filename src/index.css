@@ -1,0 +1,33 @@
+
+body{
+    display: flex;
+    justify-content: center;
+}
+h1{
+    font-size: 30px;
+    text-align: center;
+}
+form {
+    display: flex;
+    width: 300px;   
+    justify-content: space-between;
+    margin : 20px 0;
+
+}
+ul li{
+    display: flex;
+    width: 300px;
+    height: 35px;
+    line-height: 30px;
+    justify-content: space-between;
+}
+
+
+li button{
+    height: 25px;
+    margin: 0;
+}
+p{
+    margin: 0;
+    padding: 0;
+}

@@ -12,7 +12,15 @@ class ProjectElement extends React.Component {
     this.props.handleRemove(event.target.parentElement.getAttribute('data-key'));
   }
   handleNav(event) {
-    this.props.handleNav(event.target.parentElement.getAttribute('data-key'));
+    const element = event.target;
+    if(element.classList.contains('delete-btn')){
+      return;
+    }
+    if(element.getAttribute('data-key'))
+      this.props.handleNav(element.getAttribute('data-key'));
+    else if(element.parentElement.getAttribute('data-key'))
+      this.props.handleNav(element.parentElement.getAttribute('data-key'));
+
   }
   render() {
     return (
@@ -20,7 +28,11 @@ class ProjectElement extends React.Component {
         className={'project-item'}
         onClick={this.handleNavigation}>
         <p>{this.project.name}</p>
-        <button onClick={this.handleRemove}> delete</button>
+        <button 
+          className={'delete-btn'} 
+          onClick={this.handleRemove}>
+          delete
+        </button>
       </li>
     )
   }
@@ -65,7 +77,7 @@ class Projects extends React.Component {
     this.props.handleAdd(name);
   }
   handleRemove(id) {
-    this.props.handleRempve(id);
+    this.props.handleRemove(id);
   }
   handleNav(id) {
     this.props.handleNav(id);
@@ -74,7 +86,7 @@ class Projects extends React.Component {
     return (
       <div className={"projects"}>
         <h2>Projects</h2>
-        <ProjectForm handleAdd={this.handleAddProject} />
+        <ProjectForm handleAdd={this.handleAdd} />
         <ol>
           {
             this.props.projects.map((project) =>

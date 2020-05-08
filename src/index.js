@@ -45,7 +45,6 @@ class App extends React.Component {
     const counter = this.state.idCounter + 1;
     projects.push({ name: name, id: this.state.idCounter });
     this.setState({ projects: projects, idCounter: counter });
-    console.log(this.state.projects);
   }
   handleRemoveProject(id) {
     let projects = this.state.projects;

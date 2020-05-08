@@ -1,9 +1,67 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Task } from "./task";
 
 import "./reset.css";
 import "./index.css";
+
+class TaskElement extends React.Component {
+  constructor(props) {
+    super(props);
+    this.task = props.task;
+    this.handleRemove = this.handleRemove.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
+  }
+  handleRemove(event) {
+    this.props.handleRemove(event.target.parentElement.getAttribute('data-key'));
+  }
+  handleCheck(event) {
+    this.props.handleCheck(event.target.parentElement.getAttribute('data-key'));
+  }
+
+  render() {
+    const task = this.task;
+    return (
+      <li data-key={task.id}>
+        {
+          task.done ?
+            <input type="checkbox" onChange={this.handleCheck} defaultChecked /> :
+            <input type="checkbox" onChange={this.handleCheck} />
+        }
+        <p>{task.name}</p>
+        <button onClick={this.handleRemove}> delete</button>
+      </li>
+    )
+  }
+}
+
+class TaskForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 'Nome da nova tarefa...',
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleButton = this.handleButton.bind(this);
+  }
+  handleChange(event) {
+    this.setState({ value: event.target.value })
+  }
+  handleButton(event) {
+    event.preventDefault();
+    this.props.addElement(this.state.value);
+  }
+  render() {
+    return (
+      <form onSubmit={this.handleButton}>
+        <input
+          placeholder={this.state.value}
+          onChange={this.handleChange}>
+        </input>
+        <button> add </button>
+      </form>
+    )
+  }
+}
 
 class ProjectElement extends React.Component {
   constructor(props) {
@@ -63,14 +121,14 @@ class ProjectForm extends React.Component {
 }
 
 const tasks = [
-  { name: "Tarefa 1", id: 0, done: false },
-  { name: "Tarefa 2", id: 1, done: true },
-  { name: "Tarefa 3", id: 2, done: false }
+  { name: "Tarefa 1", id: 10, done: false },
+  { name: "Tarefa 2", id: 11, done: true },
+  { name: "Tarefa 3", id: 12, done: false }
 ];
 const tasks2 = [
-  { name: "Tarefa 4", id: 3, done: false },
-  { name: "Tarefa 5", id: 4, done: false },
-  { name: "Tarefa 6", id: 5, done: true }
+  { name: "Tarefa 4", id: 0, done: false },
+  { name: "Tarefa 5", id: 1, done: false },
+  { name: "Tarefa 6", id: 2, done: true }
 ];
 
 class Projects extends React.Component {
@@ -79,10 +137,9 @@ class Projects extends React.Component {
     this.something = 'a';
     this.state = {
       idCounter: 2,
-      idCounterTask: 6,
       projects: [
-        { name: 'pojeto1', id: 0, tasks: tasks },
-        { name: 'pojeto2', id: 1, tasks: tasks2 }
+        { name: 'pojeto1', id: 0, tasks: tasks, idCounter: 13 },
+        { name: 'pojeto2', id: 1, tasks: tasks2, idCounter: 3 }
       ],
       shownProject: null,
     }
@@ -117,11 +174,11 @@ class Projects extends React.Component {
   handleAddTask(name) {
     const shownProject = this.state.shownProject;
     const tasks = this.state.shownProject.tasks;
-    const counter = this.state.idCounterTask + 1;
-    tasks.push({ name: name, id: this.state.idCounterTask });
+    const counter = this.state.shownProject.idCounter + 1;
+    tasks.push({ name: name, id: this.state.shownProject.idCounter });
     shownProject['tasks'] = tasks;
     shownProject['idCounter'] = counter;
-    this.setState({ shownProject: shownProject, idCounterTask: counter });
+    this.setState({ shownProject: shownProject });
   }
   handleRemoveTask(id) {
     const shownProject = this.state.shownProject;
@@ -158,14 +215,21 @@ class Projects extends React.Component {
           }
         </ol>
         {(this.state.shownProject) ?
-          <Task
-            tasks={this.state.shownProject.tasks}
-            className={'taskClass'}
-            handleAdd={this.handleAddTask}
-            handleRemove={this.handleRemoveTask}
-            handleCheck={this.handleCheckTask}
-          /> :
-          null
+          <div className={'tasks'}>
+            <h2>Tasks</h2>
+            <TaskForm addElement={this.handleAddTask} />
+            <ul>
+              {this.state.shownProject.tasks.map((task) =>
+                <TaskElement
+                  task={task}
+                  handleRemove={this.handleRemoveTask}
+                  handleCheck={this.handleCheckTask}
+                  key={task.id}
+                />
+              )}
+            </ul>
+          </div> :
+          <h3>HAHAHAHAH</h3>
         }
       </div>
     )

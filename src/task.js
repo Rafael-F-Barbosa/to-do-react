@@ -63,30 +63,19 @@ class TaskForm extends React.Component {
 class Task extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      idCounter: 3,
-      tasks: props.tasks,
-    }
+    
     this.handleAdd = this.handleAdd.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
   }
   handleAdd (name) {
-    const tasks = this.state.tasks;
-    const counter = this.state.idCounter + 1;
-    tasks.push({ name: name, id: this.state.idCounter });
-    this.setState({ tasks: tasks, idCounter: counter });
+    this.props.handleAdd(name);
   }
   handleRemove (id) {
-    let tasks = this.state.tasks;
-    tasks = tasks.filter((task) => Number(task.id) !== Number(id))
-    this.setState({ tasks: tasks });
+    this.props.handleRemove(id);
   }
   handleCheck (id) {
-    let tasks = this.state.tasks;
-    let task = tasks.find((task)=>Number(task.id)===Number(id))
-    task.done = !task.done
-    this.setState({ tasks: tasks });
+    this.props.handleCheck(id)
   }
   render() {
     return (
@@ -94,20 +83,22 @@ class Task extends React.Component {
         <h2>Tasks</h2>
         <TaskForm addElement={this.handleAdd} />
         <ul>
-          {this.state.tasks.map((task) =>
+          {
+            this.props.tasks ? 
+          this.props.tasks.map((task) =>
             <TaskElement
               task={task}
               handleRemove={this.handleRemove}
               handleCheck={this.handleCheck}
               key={task.id}
             />
-          )}
-
+          ):
+          <h2>No tasks to show.</h2>
+          }
         </ul>
       </div>
     )
   }
 }
-
 
 export {Task}

@@ -94,6 +94,7 @@ class Projects extends React.Component {
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleRemoveTask = this.handleRemoveTask.bind(this);
     this.handleCheckTask = this.handleCheckTask.bind(this);
+    this.handleBack = this.handleBack.bind(this);
   }
   handleAdd(name) {
     const projects = this.state.projects;
@@ -111,12 +112,11 @@ class Projects extends React.Component {
     let projects = this.state.projects;
     const project = projects.find((project) => Number(project.id) === Number(id))
     this.setState({ shownProject: project })
-    console.log(this.state.shownProject);
   }
 
   handleAddTask(name) {
     const shownProject = this.state.shownProject;
-    const tasks = this.state.shownProject.tasks;
+    const tasks = this.state.shownProject.tasks || [];
     const counter = this.state.idCounterTask + 1;
     tasks.push({ name: name, id: this.state.idCounterTask });
     shownProject['tasks'] = tasks;
@@ -138,36 +138,39 @@ class Projects extends React.Component {
     shownProject['tasks'] = tasks;
     this.setState({ shownProject: shownProject });
   }
+  handleBack(){
+    this.setState({shownProject: null})
+  }
 
   render() {
     return (
-      <div className={"projects"}>
-        <h2>Projects</h2>
-        <ProjectForm handleAdd={this.handleAdd} />
-        <ol>
-          {
-            this.state.projects.map((project) =>
-              <ProjectElement
-                className={"project-item"}
-                project={project}
-                handleRemove={this.handleRemove}
-                handleNavigation={this.handleNavigation}
-                key={project.id}
-              />
-            )
-          }
-        </ol>
-        {(this.state.shownProject) ?
-          <Task
-            tasks={this.state.shownProject.tasks}
-            className={'taskClass'}
-            handleAdd={this.handleAddTask}
-            handleRemove={this.handleRemoveTask}
-            handleCheck={this.handleCheckTask}
-          /> :
-          null
-        }
-      </div>
+      (this.state.shownProject) ?
+        <Task
+          projectName={this.state.shownProject.name}
+          tasks={this.state.shownProject.tasks}
+          className={'tasks'}
+          handleAdd={this.handleAddTask}
+          handleRemove={this.handleRemoveTask}
+          handleCheck={this.handleCheckTask}
+          handleBack={this.handleBack}
+        /> :
+        <div className={"projects"}>
+          <h2>Projects</h2>
+          <ProjectForm handleAdd={this.handleAdd} />
+          <ol>
+            {
+              this.state.projects.map((project) =>
+                <ProjectElement
+                  className={"project-item"}
+                  project={project}
+                  handleRemove={this.handleRemove}
+                  handleNavigation={this.handleNavigation}
+                  key={project.id}
+                />
+              )
+            }
+          </ol>
+        </div>
     )
   }
 }

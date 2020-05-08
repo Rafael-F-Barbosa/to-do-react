@@ -73,6 +73,22 @@ input{
     color: white;
 }
 /* Especific task rules*/
+.tasks header{
+    width: 400px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.tasks header button{
+    display: block;
+
+    width: 35px;
+    height: 35px;
+
+    background-image: url(https://image.flaticon.com/icons/svg/283/283480.svg);
+    background-color: #B0C4DE;
+}
 form {
     display: flex;
     justify-content: space-between;

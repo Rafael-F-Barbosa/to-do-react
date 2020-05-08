@@ -1,66 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import { Task } from "./task";
+import { Tasks } from "./tasks";
+import {Projects} from "./projects" 
 
 import "./reset.css";
 import "./index.css";
 
-class ProjectElement extends React.Component {
-  constructor(props) {
-    super(props)
-    this.project = this.props.project;
-
-    this.handleRemove = this.handleRemove.bind(this);
-    this.handleNavigation = this.handleNavigation.bind(this);
-
-  }
-
-  handleRemove(event) {
-    this.props.handleRemove(event.target.parentElement.getAttribute('data-key'));
-  }
-  handleNavigation(event) {
-    this.props.handleNavigation(event.target.parentElement.getAttribute('data-key'));
-  }
-
-  render() {
-    return (
-      <li data-key={this.project.id}
-        className={'project-item'}
-        onClick={this.handleNavigation}>
-        <p>{this.project.name}</p>
-        <button onClick={this.handleRemove}> delete</button>
-      </li>
-    )
-  }
-}
-class ProjectForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 'Nome do novo projeto...',
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleButton = this.handleButton.bind(this);
-  }
-  handleChange(event) {
-    this.setState({ value: event.target.value })
-  }
-  handleButton(event) {
-    event.preventDefault();
-    this.props.handleAdd(this.state.value);
-  }
-  render() {
-    return (
-      <form onSubmit={this.handleButton}>
-        <input
-          placeholder={this.state.value}
-          onChange={this.handleChange}>
-        </input>
-        <button> add </button>
-      </form>
-    )
-  }
-}
 
 const tasks = [
   { name: "Tarefa 1", id: 0, done: false },
@@ -73,10 +18,9 @@ const tasks2 = [
   { name: "Tarefa 6", id: 5, done: true }
 ];
 
-class Projects extends React.Component {
+class App extends React.Component {
   constructor(props) {
-    super(props)
-    this.something = 'a';
+    super(props);
     this.state = {
       idCounter: 2,
       idCounterTask: 6,
@@ -87,28 +31,29 @@ class Projects extends React.Component {
       shownProject: null,
     }
 
-    this.handleRemove = this.handleRemove.bind(this);
-    this.handleNavigation = this.handleNavigation.bind(this);
-    this.handleAdd = this.handleAdd.bind(this);
+    this.handleRemoveProject = this.handleRemoveProject.bind(this);
+    this.handleNavProject = this.handleNavProject.bind(this);
+    this.handleAddProject = this.handleAddProject.bind(this);
 
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleRemoveTask = this.handleRemoveTask.bind(this);
     this.handleCheckTask = this.handleCheckTask.bind(this);
     this.handleBack = this.handleBack.bind(this);
   }
-  handleAdd(name) {
+  handleAddProject(name) {
     const projects = this.state.projects;
     const counter = this.state.idCounter + 1;
     projects.push({ name: name, id: this.state.idCounter });
     this.setState({ projects: projects, idCounter: counter });
+    console.log(this.state.projects);
   }
-  handleRemove(id) {
+  handleRemoveProject(id) {
     let projects = this.state.projects;
     projects = projects.filter((project) => Number(project.id) !== Number(id))
     this.setState({ projects: projects })
   }
 
-  handleNavigation(id) {
+  handleNavProject(id) {
     let projects = this.state.projects;
     const project = projects.find((project) => Number(project.id) === Number(id))
     this.setState({ shownProject: project })
@@ -138,44 +83,35 @@ class Projects extends React.Component {
     shownProject['tasks'] = tasks;
     this.setState({ shownProject: shownProject });
   }
-  handleBack(){
-    this.setState({shownProject: null})
+  handleBack() {
+    this.setState({ shownProject: null })
   }
 
   render() {
     return (
-      (this.state.shownProject) ?
-        <Task
+      <Fragment>
+        <h1>To-do-App</h1>
+        {(this.state.shownProject) ?
+        <Tasks
           projectName={this.state.shownProject.name}
           tasks={this.state.shownProject.tasks}
-          className={'tasks'}
           handleAdd={this.handleAddTask}
           handleRemove={this.handleRemoveTask}
           handleCheck={this.handleCheckTask}
-          handleBack={this.handleBack}
-        /> :
-        <div className={"projects"}>
-          <h2>Projects</h2>
-          <ProjectForm handleAdd={this.handleAdd} />
-          <ol>
-            {
-              this.state.projects.map((project) =>
-                <ProjectElement
-                  className={"project-item"}
-                  project={project}
-                  handleRemove={this.handleRemove}
-                  handleNavigation={this.handleNavigation}
-                  key={project.id}
-                />
-              )
-            }
-          </ol>
-        </div>
+          handleBack={this.handleBack}/> :
+        <Projects 
+          projects = {this.state.projects}
+          handleAdd={this.handleAddProject}
+          handleRemove={this.handleRemoveProject}
+          handleNav={this.handleNavProject}
+        />
+        }
+      </Fragment>
     )
   }
 }
 
 ReactDOM.render(
-  <Projects />,
+  <App />,
   document.getElementById('root')
 );

@@ -1,6 +1,4 @@
 import React from 'react';
-import "./reset.css";
-import "./index.css";
 
 class TaskElement extends React.Component {
   constructor(props) {
@@ -60,7 +58,7 @@ class TaskForm extends React.Component {
   }
 }
 
-class Task extends React.Component {
+class Tasks extends React.Component {
   constructor(props) {
     super(props);
 
@@ -83,7 +81,7 @@ class Task extends React.Component {
   }
   render() {
     return (
-      <div className={this.props.className}>
+      <div className={'tasks'}>
         <header>
           <h2>{this.props.projectName}</h2>
           <h2>Tasks</h2>
@@ -109,4 +107,4 @@ class Task extends React.Component {
   }
 }
 
-export { Task }
+export { Tasks };

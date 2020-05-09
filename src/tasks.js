@@ -17,7 +17,7 @@ class TaskElement extends React.Component {
   render() {
     const task = this.task;
     return (
-      <li data-key={task.id}>
+      <li className={this.props.className} data-key={task.id}>
         {
           task.done ?
             <input type="checkbox" onChange={this.handleCheck} defaultChecked /> :
@@ -94,6 +94,7 @@ class Tasks extends React.Component {
               this.props.tasks.map((task) =>
                 <TaskElement
                   task={task}
+                  className={"task-item"}
                   handleRemove={this.handleRemove}
                   handleCheck={this.handleCheck}
                   key={task.id}

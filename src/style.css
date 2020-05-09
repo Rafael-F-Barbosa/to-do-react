@@ -121,6 +121,8 @@ form input{
     text-align: start;
 
     margin: 5px 0;
+
+    overflow: hidden;
 }
 .tasks header h2:nth-child(2){
     grid-column-start: 1;

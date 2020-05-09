@@ -41,7 +41,7 @@ class App extends React.Component {
     this.handleBack = this.handleBack.bind(this);
   }
   handleAddProject(name) {
-    const projects = this.state.projects;
+    const projects = this.state.projects||[];
     const counter = this.state.idCounter + 1;
     projects.push({ name: name, id: this.state.idCounter });
     this.setState({ projects: projects, idCounter: counter });

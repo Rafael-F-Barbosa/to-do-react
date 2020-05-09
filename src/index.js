@@ -4,7 +4,7 @@ import { Tasks } from "./tasks";
 import {Projects} from "./projects" 
 
 import "./reset.css";
-import "./index.css";
+import "./style.css";
 
 
 const tasks = [

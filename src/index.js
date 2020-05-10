@@ -8,52 +8,13 @@ import { db } from "./firebase"
 import "./reset.css";
 import "./style.css";
 
-const tasks = [
-  { name: "Tarefa 1", id: 0, done: false },
-  { name: "Tarefa 2", id: 1, done: true },
-  { name: "Tarefa 3", id: 2, done: false }
-];
-
-const tasks2 = [
-  { name: "Tarefa 4", id: 3, done: false },
-  { name: "Tarefa 5", id: 4, done: false },
-  { name: "Tarefa 6", id: 5, done: true }
-];
-
-const projectCol = db.collection('projects');
-const projects = [
-  { name: 'pojeto1', id: 4, tasks: tasks },
-  { name: 'pojeto2', id: 5, tasks: tasks2 }
-]
-db.collection('projects').get().then(snapshot => {
-  snapshot.docs.forEach(doc => {
-    const projectId = doc.id;
-    const addTasks = [];
-    const project = {
-      id: doc.data().id,
-      name: doc.data().name,
-    }
-    projectCol.doc(projectId).collection('tasks').get().then((s) => {
-      s.docs.forEach(d => {
-        addTasks.push(d.data())
-      })
-    })
-    project['tasks'] = addTasks;
-    projects.push(project);
-  })
-});
-
-console.log(projects)
-
-
-const theProjects = projects;
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       idCounter: 2,
       idCounterTask: 6,
-      projects: theProjects,
+      projects: [],
       shownProject: null,
     }
 
@@ -110,6 +71,30 @@ class App extends React.Component {
   }
   handleBack() {
     this.setState({ shownProject: null })
+  }
+
+  componentDidMount(){
+    const projectCol = db.collection('projects');
+    const projects = [];
+    db.collection('projects').get().then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        const projectId = doc.id;
+        const addTasks = [];
+        const project = {
+          id: doc.data().id,
+          name: doc.data().name,
+        }
+        projectCol.doc(projectId).collection('tasks').get().then((s) => {
+          s.docs.forEach(d => {
+            addTasks.push(d.data())
+          })
+        })
+        project['tasks'] = addTasks;
+        projects.push(project);
+      })
+      console.log(projects)
+      this.setState({projects: projects})
+    });
   }
 
   render() {

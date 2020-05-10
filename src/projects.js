@@ -4,6 +4,7 @@ class ProjectElement extends React.Component {
   constructor(props) {
     super(props)
     this.project = this.props.project;
+
     this.handleRemove = this.handleRemove.bind(this);
     this.handleNavigation = this.handleNav.bind(this);
   }
@@ -12,12 +13,12 @@ class ProjectElement extends React.Component {
   }
   handleNav(event) {
     const element = event.target;
-    if (element.classList.contains('delete-btn')) {
+    if(element.classList.contains('delete-btn')){
       return;
     }
-    if (element.getAttribute('data-key'))
+    if(element.getAttribute('data-key'))
       this.props.handleNav(element.getAttribute('data-key'));
-    else if (element.parentElement.getAttribute('data-key'))
+    else if(element.parentElement.getAttribute('data-key'))
       this.props.handleNav(element.parentElement.getAttribute('data-key'));
   }
   render() {
@@ -26,8 +27,8 @@ class ProjectElement extends React.Component {
         className={'project-item'}
         onClick={this.handleNavigation}>
         <p>{this.project.name}</p>
-        <button
-          className={'delete-btn'}
+        <button 
+          className={'delete-btn'} 
           onClick={this.handleRemove}>
           delete
         </button>
@@ -85,24 +86,22 @@ class Projects extends React.Component {
       <div className={"projects"}>
         <h2>Projects</h2>
         <ProjectForm handleAdd={this.handleAdd} />
-        {(this.props.projects) ?
-          <ol>
-            {
-              this.props.projects.map((project) =>
-                <ProjectElement
-                  className={"project-item"}
-                  project={project}
-                  handleRemove={this.handleRemove}
-                  handleNav={this.handleNav}
-                  key={project.id}
-                />
-              )
-            }
-          </ol> :
-          <h2>No projects to show.</h2>
-        }
+        <ol>
+          {
+            this.props.projects.map((project) =>
+              <ProjectElement
+                className={"project-item"}
+                project={project}
+                handleRemove={this.handleRemove}
+                handleNav={this.handleNav}
+                key={project.id}
+              />
+            )
+          }
+        </ol>
       </div>
     )
   }
 }
-export { Projects };
+
+export {Projects};

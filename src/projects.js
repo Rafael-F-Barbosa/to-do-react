@@ -4,7 +4,6 @@ class ProjectElement extends React.Component {
   constructor(props) {
     super(props)
     this.project = this.props.project;
-
     this.handleRemove = this.handleRemove.bind(this);
     this.handleNavigation = this.handleNav.bind(this);
   }
@@ -21,6 +20,7 @@ class ProjectElement extends React.Component {
     else if(element.parentElement.getAttribute('data-key'))
       this.props.handleNav(element.parentElement.getAttribute('data-key'));
   }
+  
   render() {
     return (
       <li data-key={this.project.id}
@@ -68,6 +68,7 @@ class ProjectForm extends React.Component {
 class Projects extends React.Component {
   constructor(props) {
     super(props);
+
     this.handleAdd = this.handleAdd.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleNav = this.handleNav.bind(this);

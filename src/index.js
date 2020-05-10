@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom';
 import { Tasks } from "./tasks";
 import { Projects } from "./projects"
 import { db } from "./firebase"
-
-
 import "./reset.css";
 import "./style.css";
+
 
 class App extends React.Component {
   constructor(props) {
@@ -73,30 +72,31 @@ class App extends React.Component {
     this.setState({ shownProject: null })
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const projectCol = db.collection('projects');
     const projects = [];
     db.collection('projects').get().then(snapshot => {
       snapshot.docs.forEach(doc => {
         const projectId = doc.id;
-        const addTasks = [];
+        const tasks = [];
         const project = {
           id: doc.data().id,
           name: doc.data().name,
         }
         projectCol.doc(projectId).collection('tasks').get().then((s) => {
           s.docs.forEach(d => {
-            addTasks.push(d.data())
+            tasks.push(d.data())
           })
         })
-        project['tasks'] = addTasks;
+        project.tasks = tasks;
         projects.push(project);
       })
-      console.log(projects)
-      this.setState({projects: projects})
+      this.setState({ projects: projects })
     });
+    // Eu queria desacoplar isso aqui, mas não consigo
+    // fazer com que o setState espere o banco de dados
+    // ser carregado, resolver depois
   }
-
   render() {
     return (
       <Fragment>

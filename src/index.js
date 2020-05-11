@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Tasks } from "./tasks";
 import { Projects } from "./projects"
+import {projectsPromise} from "./firebase"
 import "./reset.css";
 import "./style.css";
 
@@ -9,8 +10,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      idCounter: 1,
-      idCounterTask: 1,
+      idCounter: 2,
+      idCounterTask: 3,
       projects: [],
       shownProject: null,
     }
@@ -71,11 +72,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const projects = [
-      {name: 'Pojeto 1 - exemplo',
-       id: 0,
-       tasks: [{name: 'tarefa 1', id: 0}]}]
-    this.setState({projects: projects})
+    projectsPromise().then((result)=>
+    {
+      this.setState({projects: result})
+    })
+  }
+  componentDidUpdate(prevState){
   }
   render() {
     return (

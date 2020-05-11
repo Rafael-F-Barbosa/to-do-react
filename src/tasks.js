@@ -6,8 +6,6 @@ class TaskElement extends React.Component {
     this.task = props.task;
     this.handleRemove = this.handleRemove.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
-    
-    this.handleDetails = this.handleDetails.bind(this);
   }
   handleRemove(event) {
     this.props.handleRemove(event.target.parentElement.getAttribute('data-key'));
@@ -26,7 +24,6 @@ class TaskElement extends React.Component {
             <input type="checkbox" onChange={this.handleCheck} />
         }
         <p>{task.name}</p>
-        <button onClick={this.handleDetails}className={'btn-details'}>details</button>
         <button onClick={this.handleRemove}> delete</button>
       </li>
     )

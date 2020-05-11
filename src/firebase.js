@@ -16,3 +16,31 @@ var firebaseConfig = {
   const db = firebase.firestore();
 
   export {db};
+
+  // function dataBase() {
+    // const projectCol = db.collection('projects');
+    // const projects = [];
+    // db.collection('projects').get().then(snapshot => {
+      // snapshot.docs.forEach(doc => {
+        // const projectId = doc.id;
+        // const tasks = [];
+        // const project = {
+          // id: doc.data().id,
+          // name: doc.data().name,
+        // }
+        // projectCol.doc(projectId).collection('tasks').get().then((s) => {
+          // s.docs.forEach(d => {
+            // tasks.push(d.data())
+          // })
+        // })
+        // project.tasks = tasks;
+        // projects.push(project);
+      // })
+      // console.log('inside: ', projects);
+      // return projects;
+    // });
+    // return projects;
+  // }
+  // function fetchingData(projects){
+    // return (Promise.resolve(projects));
+  // }

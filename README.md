@@ -1,4 +1,9 @@
+This project was created for learning react and it was done following the [main concepts of a react](https://reactjs.org/docs/hello-world.html) and using firebase(firestore) for data persistence. 
+
+Project available in https://rafael-f-barbosa.github.io/to-do-react/.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
 
 ## Available Scripts
 

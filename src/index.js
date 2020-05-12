@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Tasks } from "./tasks";
 import { Projects } from "./projects"
-import {projectsPromise} from "./firebase"
+import {getProjects, saveProjects, saveTasks} from "./firebase"
 import "./reset.css";
 import "./style.css";
 
@@ -30,6 +30,8 @@ class App extends React.Component {
     const counter = this.state.idCounter + 1;
     projects.push({ name: name, id: this.state.idCounter });
     this.setState({ projects: projects, idCounter: counter });
+  
+    saveProjects({name: name, id: this.state.idCounter});
   }
   handleRemoveProject(id) {
     let projects = this.state.projects;
@@ -51,6 +53,8 @@ class App extends React.Component {
     shownProject['tasks'] = tasks;
     shownProject['idCounter'] = counter;
     this.setState({ shownProject: shownProject, idCounterTask: counter });
+  
+    saveTasks({name: name, id: this.state.idCounterTasks});
   }
   handleRemoveTask(id) {
     const shownProject = this.state.shownProject;
@@ -72,12 +76,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    projectsPromise().then((result)=>
+    getProjects().then((result)=>
     {
       this.setState({projects: result})
     })
-  }
-  componentDidUpdate(prevState){
   }
   render() {
     return (

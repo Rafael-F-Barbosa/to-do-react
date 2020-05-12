@@ -16,30 +16,53 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 function getProjects() {
-  const projectCol = db.collection('projects');
-  const projects = [];
-  db.collection('projects').get().then(snapshot => {
-    snapshot.docs.forEach(doc => {
-      const projectId = doc.id;
-      const tasks = [];
-      const project = {
-        id: doc.data().id,
-        name: doc.data().name,
-      }
-      projectCol.doc(projectId).collection('tasks').get().then((s) => {
-        s.docs.forEach(d => {
-          tasks.push(d.data())
+  return new Promise(function (resolve) {
+    const projectsCollection = db.collection('projects');
+    const projects = [];
+    projectsCollection.get().then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        const projectId = doc.id;
+        const tasks = [];
+        const project = {
+          id: doc.data().id,
+          name: doc.data().name,
+        }
+        projectsCollection.doc(projectId).collection('tasks').get().then((s) => {
+          s.docs.forEach(d => {
+            tasks.push(d.data())
+          })
         })
+        project.tasks = tasks;
+        projects.push(project);
       })
-      project.tasks = tasks;
-      projects.push(project);
-    })
-    return projects;
-  });
-  return projects;
-}
-function projectsPromise() {
-  return (Promise.resolve(getProjects()));
+      resolve(projects);
+    });
+  })
 }
 
-export {projectsPromise};
+function saveProjects(project) {
+  const projectsCollection = db.collection('projects');
+  projectsCollection.add({
+    name: project.name,
+    id: project.id
+  });
+}
+function saveTasks(task) {
+  const projectsCollection = db.collection('projects');
+  projectsCollection.get().then(snapshot => {
+    snapshot.docs.forEach(doc => {
+      const projectId = doc.id;
+      console.log(doc.data());
+      console.log(projectsCollection.doc(projectId).collection('tasks'))
+    //   .add({
+    //     name: task.name, id: task.id }
+    //   )
+    })
+  })
+}
+
+export { getProjects, saveProjects, saveTasks };
+
+
+
+

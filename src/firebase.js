@@ -12,66 +12,81 @@ var firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const projectsCollection = db.collection('projects');
 
-function getProjects() {
-  return new Promise(function (resolve) {
-    const projectsCollection = db.collection('projects');
-    const projects = [];
-    projectsCollection.get().then(snapshot => {
-      snapshot.docs.forEach(doc => {
-        const projectId = doc.id;
-        const tasks = [];
-        const project = {
-          id: projectId,
-          name: doc.data().name,
-        }
-        projectsCollection.doc(projectId).collection('tasks').get().then((s) => {
-          s.docs.forEach(d => {
-            tasks.push({
-              id: d.id,
-              name: d.data().name, 
-              done: d.data().done
+const dataHandler = (() => {
+  const db = firebase.firestore();
+  const projectsCollection = db.collection('projects');
+
+  function getProjects() {
+    return new Promise(function (resolve) {
+      const projects = [];
+      projectsCollection.get().then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          const projectId = doc.id;
+          const tasks = [];
+          const project = {
+            id: projectId,
+            name: doc.data().name,
+          }
+          projectsCollection.doc(projectId).collection('tasks').get().then((s) => {
+            s.docs.forEach(d => {
+              tasks.push({
+                id: d.id,
+                name: d.data().name,
+                done: d.data().done
+              })
             })
           })
+          project.tasks = tasks;
+          projects.push(project);
         })
-        project.tasks = tasks;
-        projects.push(project);
+        resolve(projects);
+      });
+    })
+  }
+  function saveProjects(project) {
+    return (new Promise(function (resolve) {
+      projectsCollection.add({
+        name: project.name,
+      }).then(function (newDoc) {
+        resolve(newDoc.id)
       })
-      resolve(projects);
-    });
-  })
-}
-function saveProjects(project) {
-  return (new Promise(function (resolve) {
-    const projectsCollection = db.collection('projects');
-    projectsCollection.add({
-      name: project.name,
-    }).then(function (newDoc) {
-      resolve(newDoc.id)
-    })
-  }))
-}
+    }))
+  }
 
-function saveTasks(project, task) {
-  return new Promise(function (resolve) {
-    projectsCollection.doc(project.id).collection('tasks').add(
-      { name: task.name }
-    ).then(function (task) {
-      resolve(task.id)
+  function saveTasks(project, task) {
+    return new Promise(function (resolve) {
+      projectsCollection.doc(project.id).collection('tasks').add(
+        { name: task.name }
+      ).then(function (task) {
+        resolve(task.id)
+      })
     })
-  })
-}
-function deleteTask(projectId, taskId){
-  projectsCollection
-    .doc(projectId).collection('tasks').doc(taskId).delete();
-}
-function deleteProject(projectId){
-  projectsCollection.doc(projectId).delete();
-}
+  }
+  function deleteTask(projectId, taskId) {
+    projectsCollection
+      .doc(projectId).collection('tasks').doc(taskId).delete();
+  }
+  function deleteProject(projectId) {
+    projectsCollection.doc(projectId).delete();
+  }
 
-export { getProjects, saveProjects, saveTasks, deleteTask, deleteProject};
+  function updateTask(projectId, taskId, complete) {
+    projectsCollection.doc(projectId).collection('tasks').doc(taskId).update(
+      { done: complete }
+    )
+  }
+  return {
+    getProjects,
+    saveProjects,
+    saveTasks,
+    deleteTask,
+    deleteProject,
+    updateTask,
+  }
+})();
+
+export { dataHandler };
 
 
 

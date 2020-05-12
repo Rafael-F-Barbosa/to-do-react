@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Tasks } from "./tasks";
 import { Projects } from "./projects"
-import { getProjects, saveProjects, saveTasks, deleteTask, deleteProject } from "./firebase"
+import {dataHandler} from "./firebase"
 import "./reset.css";
 import "./style.css";
 
@@ -24,7 +24,7 @@ class App extends React.Component {
     this.handleBack = this.handleBack.bind(this);
   }
   handleAddProject(name) {
-    saveProjects({ name: name }).then((result) => {
+    dataHandler.saveProjects({ name: name }).then((result) => {
       const projects = this.state.projects;
       projects.push({ name: name, id: result });
       this.setState({ projects: projects });
@@ -34,8 +34,7 @@ class App extends React.Component {
     let projects = this.state.projects;
     projects = projects.filter((project) => String(project.id) !== String(id))
     this.setState({ projects: projects })
-
-    deleteProject(id);
+    dataHandler.deleteProject(id);
   }
 
   handleNavProject(id) {
@@ -47,7 +46,7 @@ class App extends React.Component {
   handleAddTask(name) {
     const shownProject = this.state.shownProject;
     const tasks = this.state.shownProject.tasks || [];
-    saveTasks(shownProject, { name: name }).then((result)=>{
+    dataHandler.saveTasks(shownProject, { name: name }).then((result)=>{
       tasks.push({ name: name, id: result, done: false});
       shownProject.tasks = tasks;
       shownProject.id = result;
@@ -63,8 +62,7 @@ class App extends React.Component {
     tasks = tasks.filter((task) => String(task.id) !== String(id))
     shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
-
-    deleteTask(shownProject.id, id);
+    dataHandler.getElementByIddeleteTask(shownProject.id, id);
   }
   handleCheckTask(id) {
     const shownProject = this.state.shownProject;
@@ -73,13 +71,14 @@ class App extends React.Component {
     task.done = !task.done
     shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
+    dataHandler.updateTask(shownProject.id, id, task.done);
   }
   handleBack() {
     this.setState({ shownProject: null })
   }
 
   componentDidMount() {
-    getProjects().then((result) => {
+    dataHandler.getProjects().then((result) => {
       this.setState({ projects: result })
     })
   }

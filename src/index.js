@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Tasks } from "./tasks";
 import { Projects } from "./projects"
-import {getProjects, saveProjects, saveTasks} from "./firebase"
+import { getProjects, saveProjects, saveTasks } from "./firebase"
 import "./reset.css";
 import "./style.css";
 
@@ -10,8 +10,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      idCounter: 2,
-      idCounterTask: 3,
       projects: [],
       shownProject: null,
     }
@@ -26,49 +24,50 @@ class App extends React.Component {
     this.handleBack = this.handleBack.bind(this);
   }
   handleAddProject(name) {
-    const projects = this.state.projects;
-    const counter = this.state.idCounter + 1;
-    projects.push({ name: name, id: this.state.idCounter });
-    this.setState({ projects: projects, idCounter: counter });
-  
-    saveProjects({name: name, id: this.state.idCounter});
+    saveProjects({ name: name }).then((result) => {
+      const projects = this.state.projects;
+      projects.push({ name: name, id: result });
+      this.setState({ projects: projects });
+    })
   }
   handleRemoveProject(id) {
     let projects = this.state.projects;
-    projects = projects.filter((project) => Number(project.id) !== Number(id))
+    projects = projects.filter((project) => String(project.id) !== String(id))
     this.setState({ projects: projects })
   }
 
   handleNavProject(id) {
     let projects = this.state.projects;
-    const project = projects.find((project) => Number(project.id) === Number(id));
+    const project = projects.find((project) => String(project.id) === String(id));
     this.setState({ shownProject: project });
   }
 
   handleAddTask(name) {
     const shownProject = this.state.shownProject;
     const tasks = this.state.shownProject.tasks || [];
-    const counter = this.state.idCounterTask + 1;
-    tasks.push({ name: name, id: this.state.idCounterTask });
-    shownProject['tasks'] = tasks;
-    shownProject['idCounter'] = counter;
-    this.setState({ shownProject: shownProject, idCounterTask: counter });
-  
-    saveTasks({name: name, id: this.state.idCounterTasks});
+    saveTasks(shownProject, { name: name }).then((result)=>{
+      tasks.push({ name: name, id: result, done: false});
+      shownProject.tasks = tasks;
+      shownProject.id = result;
+      this.setState({
+        shownProject: shownProject,
+        idCounterTask: result
+      });
+    })
   }
   handleRemoveTask(id) {
     const shownProject = this.state.shownProject;
     let tasks = this.state.shownProject.tasks;
-    tasks = tasks.filter((task) => Number(task.id) !== Number(id))
-    shownProject['tasks'] = tasks;
+    tasks = tasks.filter((task) => String(task.id) !== String(id))
+    shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
   }
   handleCheckTask(id) {
     const shownProject = this.state.shownProject;
     let tasks = this.state.shownProject.tasks;
-    let task = tasks.find((task) => Number(task.id) === Number(id))
+    let task = tasks.find((task) => String(task.id) === String(id))
     task.done = !task.done
-    shownProject['tasks'] = tasks;
+    shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
   }
   handleBack() {
@@ -76,9 +75,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    getProjects().then((result)=>
-    {
-      this.setState({projects: result})
+    getProjects().then((result) => {
+      this.setState({ projects: result })
     })
   }
   render() {

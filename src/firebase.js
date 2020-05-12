@@ -1,4 +1,3 @@
-// import firebase from 'firebase'
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
@@ -24,12 +23,16 @@ function getProjects() {
         const projectId = doc.id;
         const tasks = [];
         const project = {
-          id: doc.data().id,
+          id: projectId,
           name: doc.data().name,
         }
         projectsCollection.doc(projectId).collection('tasks').get().then((s) => {
           s.docs.forEach(d => {
-            tasks.push(d.data())
+            tasks.push({
+              id: d.id,
+              name: d.data().name, 
+              done: d.data().done
+            })
           })
         })
         project.tasks = tasks;
@@ -39,24 +42,23 @@ function getProjects() {
     });
   })
 }
-
 function saveProjects(project) {
-  const projectsCollection = db.collection('projects');
-  projectsCollection.add({
-    name: project.name,
-    id: project.id
-  });
+  return (new Promise(function (resolve) {
+    const projectsCollection = db.collection('projects');
+    projectsCollection.add({
+      name: project.name,
+    }).then(function (newDoc) {
+      resolve(newDoc.id)
+    })
+  }))
 }
-function saveTasks(task) {
-  const projectsCollection = db.collection('projects');
-  projectsCollection.get().then(snapshot => {
-    snapshot.docs.forEach(doc => {
-      const projectId = doc.id;
-      console.log(doc.data());
-      console.log(projectsCollection.doc(projectId).collection('tasks'))
-    //   .add({
-    //     name: task.name, id: task.id }
-    //   )
+function saveTasks(project, task) {
+  return new Promise(function (resolve) {
+    const projectsCollection = db.collection('projects');
+    projectsCollection.doc(project.id).collection('tasks').add(
+      { name: task.name }
+    ).then(function (task) {
+      resolve(task.id)
     })
   })
 }

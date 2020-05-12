@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Tasks } from "./tasks";
 import { Projects } from "./projects"
-import { getProjects, saveProjects, saveTasks } from "./firebase"
+import { getProjects, saveProjects, saveTasks, deleteTask, deleteProject } from "./firebase"
 import "./reset.css";
 import "./style.css";
 
@@ -34,6 +34,8 @@ class App extends React.Component {
     let projects = this.state.projects;
     projects = projects.filter((project) => String(project.id) !== String(id))
     this.setState({ projects: projects })
+
+    deleteProject(id);
   }
 
   handleNavProject(id) {
@@ -61,6 +63,8 @@ class App extends React.Component {
     tasks = tasks.filter((task) => String(task.id) !== String(id))
     shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
+
+    deleteTask(shownProject.id, id);
   }
   handleCheckTask(id) {
     const shownProject = this.state.shownProject;

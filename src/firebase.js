@@ -13,6 +13,7 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const projectsCollection = db.collection('projects');
 
 function getProjects() {
   return new Promise(function (resolve) {
@@ -52,9 +53,9 @@ function saveProjects(project) {
     })
   }))
 }
+
 function saveTasks(project, task) {
   return new Promise(function (resolve) {
-    const projectsCollection = db.collection('projects');
     projectsCollection.doc(project.id).collection('tasks').add(
       { name: task.name }
     ).then(function (task) {
@@ -62,8 +63,15 @@ function saveTasks(project, task) {
     })
   })
 }
+function deleteTask(projectId, taskId){
+  projectsCollection
+    .doc(projectId).collection('tasks').doc(taskId).delete();
+}
+function deleteProject(projectId){
+  projectsCollection.doc(projectId).delete();
+}
 
-export { getProjects, saveProjects, saveTasks };
+export { getProjects, saveProjects, saveTasks, deleteTask, deleteProject};
 
 
 

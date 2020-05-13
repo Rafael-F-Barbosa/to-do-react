@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "to-do-app",
   "version": "0.1.0",
   "private": true,
   "homepage": "https://rafael-f-barbosa.github.io/to-do-react/",
@@ -18,7 +18,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d public"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

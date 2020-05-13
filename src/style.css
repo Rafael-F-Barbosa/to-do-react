@@ -106,6 +106,9 @@ form input{
 /* Especific task rules*/
 .tasks{
     width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .tasks header{
     width: 100%;
@@ -143,9 +146,10 @@ form input{
     background-image: url("multimedia-option.png");
     background-repeat: no-repeat;
     background-color: #B0C4DE;
-    
 }
-
+.tasks ul{
+    width: 100%;
+}
 .task-item{
     display: flex;
     justify-content: space-between;
@@ -181,6 +185,51 @@ form input{
     background-color: red;
     color: white;
 }
+.task-item button.btn-details{
+    background-color: #4682B4;
+}
+
+form.task-details{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+form.task-details input{
+    width: 97%;
+    color: grey;
+}
+form.task-details select{
+    width: 100%;
+    background-color: #B0C4DE;
+
+    border: 2px solid 	#4682B4;
+
+    height: 25px;
+
+    color: grey;
+
+}
+form div{
+    margin-top: 15px;
+    width: 100%;
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+form .btn-cancel{
+    background-color: red;
+    width: 50%;
+    justify-self: start;
+}
+form .btn-add{
+    width: 50%;
+    justify-self: end;
+}
+
+
+
 
 /* Media Queries */
 @media screen and (max-width: 700px) {

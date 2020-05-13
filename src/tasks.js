@@ -6,12 +6,18 @@ class TaskElement extends React.Component {
     this.task = props.task;
     this.handleRemove = this.handleRemove.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+
+    this.handleDetails = this.handleDetails.bind(this);
   }
   handleRemove(event) {
     this.props.handleRemove(event.target.parentElement.getAttribute('data-key'));
   }
   handleCheck(event) {
     this.props.handleCheck(event.target.parentElement.getAttribute('data-key'));
+  }
+
+  handleDetails(event) {
+    console.log(event)
   }
 
   render() {
@@ -24,12 +30,13 @@ class TaskElement extends React.Component {
             <input type="checkbox" onChange={this.handleCheck} />
         }
         <p>{task.name}</p>
-        <button onClick={this.handleRemove}> delete</button>
+        <button className={"btn-details"} onClick={this.handleDetails}>details</button>
+        <button onClick={this.handleRemove}>delete</button>
       </li>
     )
   }
 }
-class TaskForm extends React.Component {
+class TaskDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,12 +54,27 @@ class TaskForm extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={this.handleButton}>
+      <form className={this.props.className} onSubmit={this.handleButton}>
+        <label>Name</label>
         <input
           placeholder={this.state.value}
           onChange={this.handleChange}>
         </input>
-        <button> add </button>
+        <label>Due date</label>
+        <input
+          type="date"
+        >
+        </input>
+        <label>Priority </label>
+        <select>
+          <option value="low">low</option>
+          <option value="medium">medium</option>
+          <option value="high">high</option>
+        </select>
+        <div>
+          <button className='btn-cancel'>cancel</button>
+          <button className="btn-add">add</button>
+        </div>
       </form>
     )
   }
@@ -65,7 +87,7 @@ class Tasks extends React.Component {
     this.handleAdd = this.handleAdd.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
-    this.handleBack  = this.handleBack.bind(this);
+    this.handleBack = this.handleBack.bind(this);
   }
   handleAdd(name) {
     this.props.handleAdd(name);
@@ -76,7 +98,7 @@ class Tasks extends React.Component {
   handleCheck(id) {
     this.props.handleCheck(id)
   }
-  handleBack(){
+  handleBack() {
     this.props.handleBack();
   }
   render() {
@@ -87,7 +109,6 @@ class Tasks extends React.Component {
           <h2>Tasks</h2>
           <button onClick={this.handleBack}></button>
         </header>
-        <TaskForm addElement={this.handleAdd} />
         <ul>
           {
             this.props.tasks ?
@@ -103,6 +124,7 @@ class Tasks extends React.Component {
               <h2>No tasks to show.</h2>
           }
         </ul>
+        <TaskDetails className="task-details" addElement={this.handleAdd} />
       </div>
     )
   }

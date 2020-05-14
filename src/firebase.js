@@ -33,7 +33,9 @@ const dataHandler = (() => {
               tasks.push({
                 id: d.id,
                 name: d.data().name,
-                done: d.data().done
+                date: d.data().date,
+                priority: d.data().priority,
+                done: d.data().done,
               })
             })
           })
@@ -57,7 +59,12 @@ const dataHandler = (() => {
   function saveTasks(project, task) {
     return new Promise(function (resolve) {
       projectsCollection.doc(project.id).collection('tasks').add(
-        { name: task.name }
+        {
+          name: task.name,
+          date: task.date,
+          priority: task.priority,
+          done: task.done
+        }
       ).then(function (task) {
         resolve(task.id)
       })
@@ -71,9 +78,14 @@ const dataHandler = (() => {
     projectsCollection.doc(projectId).delete();
   }
 
-  function updateTask(projectId, taskId, complete) {
+  function updateTask(projectId, taskId, task) {
     projectsCollection.doc(projectId).collection('tasks').doc(taskId).update(
-      { done: complete }
+      {
+        name: task.name,
+        date: task.date,
+        priority: task.priority,
+        done: task.done
+      }
     )
   }
   return {

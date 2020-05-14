@@ -3,7 +3,7 @@ import React from 'react';
 class TaskElement extends React.Component {
   constructor(props) {
     super(props);
-    this.task = props.task;
+    this.task = this.props.task;
     this.handleRemove = this.handleRemove.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
 
@@ -15,9 +15,9 @@ class TaskElement extends React.Component {
   handleCheck(event) {
     this.props.handleCheck(event.target.parentElement.getAttribute('data-key'));
   }
-
   handleDetails(event) {
-    console.log(event)
+    const id = event.target.parentElement.getAttribute('data-key');
+    this.props.handleDetails(this.task, id);
   }
 
   render() {
@@ -40,40 +40,81 @@ class TaskDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Nome da nova tarefa...',
+      name: 'Nome da nova tarefa...',
+      date: new Date(),
+      priority: 'low',
     }
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeDate = this.handleChangeDate.bind(this);
+    this.handleChangePriority = this.handleChangePriority.bind(this);
     this.handleButton = this.handleButton.bind(this);
+
+    this.handleDetails = this.handleDetails.bind(this);
   }
-  handleChange(event) {
-    this.setState({ value: event.target.value })
+  handleChangeName(event) {
+    this.setState({ name: event.target.value })
   }
-  handleButton(event) {
+  handleChangeDate(event) {
+    this.setState({ date: event.target.value })
+  }
+  handleChangePriority(event) {
+    this.setState({ priority: event.target.value })
+  }
+  handleButton(event, id) {
     event.preventDefault();
-    this.props.addElement(this.state.value);
+    const whichTask = this.props.whichTask
+    if (whichTask){
+      console.log(this.props.id)
+      this.props.handleUpdate(this.state, this.props.id);
+    }else{
+      this.props.handleAdd(this.state);
+    }
+  }
+  handleDetails(event) {
+    event.preventDefault();
+    this.props.handleDetails(this.task);
+    console.log('la la la la')
+  }
+  componentDidMount() {
+    const whichTask = this.props.whichTask;
+    if (whichTask) {
+      this.setState({
+        name: whichTask.name,
+        date: whichTask.date,
+        priority: whichTask.priority
+      })
+    }
   }
   render() {
+    // console.log(this.props.whichTask)
     return (
       <form className={this.props.className} onSubmit={this.handleButton}>
         <label>Name</label>
         <input
-          placeholder={this.state.value}
-          onChange={this.handleChange}>
+          value={this.state.name}
+          onChange={this.handleChangeName}>
         </input>
         <label>Due date</label>
         <input
           type="date"
+          value={this.state.date}
+          onChange={this.handleChangeDate}
         >
         </input>
         <label>Priority </label>
-        <select>
+        <select value={this.state.priority}
+          onChange={this.handleChangePriority}
+        >
           <option value="low">low</option>
           <option value="medium">medium</option>
           <option value="high">high</option>
         </select>
         <div>
-          <button className='btn-cancel'>cancel</button>
-          <button className="btn-add">add</button>
+          <button onClick={this.handleDetails} className='btn-cancel'>cancel</button>
+          {!this.props.whichTask ?
+            <button className="btn-add">add</button> :
+            <button className="btn-add">update</button>
+          }
         </div>
       </form>
     )
@@ -84,13 +125,23 @@ class Tasks extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      showList: true,
+      task: null,
+    }
+
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.handleDetails = this.handleDetails.bind(this);
   }
-  handleAdd(name) {
-    this.props.handleAdd(name);
+  handleAdd(task) {
+    this.props.handleAdd(task);
+  }
+  handleUpdate(task, id){
+    this.props.handleUpdate(task, id);
   }
   handleRemove(id) {
     this.props.handleRemove(id);
@@ -101,6 +152,11 @@ class Tasks extends React.Component {
   handleBack() {
     this.props.handleBack();
   }
+  handleDetails(task, id) {
+    const show = this.state.showList;
+    if(task){ task.id =  id}
+    this.setState({ showList: !show, task: task })
+  }
   render() {
     return (
       <div className={'tasks'}>
@@ -109,22 +165,37 @@ class Tasks extends React.Component {
           <h2>Tasks</h2>
           <button onClick={this.handleBack}></button>
         </header>
-        <ul>
-          {
-            this.props.tasks ?
-              this.props.tasks.map((task) =>
-                <TaskElement
-                  task={task}
-                  className={"task-item"}
-                  handleRemove={this.handleRemove}
-                  handleCheck={this.handleCheck}
-                  key={task.id}
-                />
-              ) :
-              <h2>No tasks to show.</h2>
-          }
-        </ul>
-        <TaskDetails className="task-details" addElement={this.handleAdd} />
+        {(this.state.showList) ?
+          <ul>
+            {
+              this.props.tasks ?
+                this.props.tasks.map((task) =>
+                  <TaskElement
+                    task={task}
+                    className={"task-item"}
+                    handleRemove={this.handleRemove}
+                    handleCheck={this.handleCheck}
+                    handleDetails={this.handleDetails}
+                    key={task.id}
+                  />
+                ) :
+                <h2>No tasks to show.</h2>
+            }
+          </ul> :
+          (!this.state.task) ?
+            <TaskDetails
+              className="task-details"
+              handleAdd={this.handleAdd}
+              handleDetails={this.handleDetails}
+            /> :
+            <TaskDetails
+              className="task-details"
+              handleUpdate={this.handleUpdate}
+              handleDetails={this.handleDetails}
+              whichTask={this.state.task}
+              id={this.state.task.id}
+            />
+        }
       </div>
     )
   }

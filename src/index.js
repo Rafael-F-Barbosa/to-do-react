@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Tasks } from "./tasks";
 import { Projects } from "./projects"
-import {dataHandler} from "./firebase"
+import { dataHandler } from "./firebase"
 import "./reset.css";
 import "./style.css";
 
@@ -19,6 +19,7 @@ class App extends React.Component {
     this.handleAddProject = this.handleAddProject.bind(this);
 
     this.handleAddTask = this.handleAddTask.bind(this);
+    this.handleUpdateTask = this.handleUpdateTask.bind(this);
     this.handleRemoveTask = this.handleRemoveTask.bind(this);
     this.handleCheckTask = this.handleCheckTask.bind(this);
     this.handleBack = this.handleBack.bind(this);
@@ -43,11 +44,17 @@ class App extends React.Component {
     this.setState({ shownProject: project });
   }
 
-  handleAddTask(name) {
+  handleAddTask(task) {
     const shownProject = this.state.shownProject;
     const tasks = this.state.shownProject.tasks || [];
-    dataHandler.saveTasks(shownProject, { name: name }).then((result)=>{
-      tasks.push({ name: name, id: result, done: false});
+    dataHandler.saveTasks(shownProject, { name: task.name, date: task.date, priority: task.priority, done: false }).then((result) => {
+      tasks.push({
+        name: task.name,
+        date: task.date,
+        priority: task.priority,
+        id: result,
+        done: false
+      });
       shownProject.tasks = tasks;
       shownProject.id = result;
       this.setState({
@@ -56,13 +63,28 @@ class App extends React.Component {
       });
     })
   }
+  handleUpdateTask(task, id) {
+    const shownProject = this.state.shownProject;
+    let tasks = shownProject.tasks;
+    console.log(tasks)
+    const index = tasks.findIndex((t) => String(t.id) === String(id))
+    let updatedTask = tasks[index];
+    console.log(updatedTask)
+    updatedTask.name = task.name
+    updatedTask.date = task.date
+    updatedTask.priority = task.priority
+    tasks.splice(index, 1, updatedTask);
+    shownProject.tasks = tasks;
+    this.setState({shownProject: shownProject});
+    dataHandler.updateTask(shownProject.id, id, updatedTask);
+  }
   handleRemoveTask(id) {
     const shownProject = this.state.shownProject;
     let tasks = this.state.shownProject.tasks;
     tasks = tasks.filter((task) => String(task.id) !== String(id))
     shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
-    dataHandler.getElementByIddeleteTask(shownProject.id, id);
+    dataHandler.deleteTask(shownProject.id, id);
   }
   handleCheckTask(id) {
     const shownProject = this.state.shownProject;
@@ -71,7 +93,7 @@ class App extends React.Component {
     task.done = !task.done
     shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
-    dataHandler.updateTask(shownProject.id, id, task.done);
+    dataHandler.updateTask(shownProject.id, id, task);
   }
   handleBack() {
     this.setState({ shownProject: null })
@@ -91,6 +113,7 @@ class App extends React.Component {
             projectName={this.state.shownProject.name}
             tasks={this.state.shownProject.tasks}
             handleAdd={this.handleAddTask}
+            handleUpdate={this.handleUpdateTask}
             handleRemove={this.handleRemoveTask}
             handleCheck={this.handleCheckTask}
             handleBack={this.handleBack} /> :

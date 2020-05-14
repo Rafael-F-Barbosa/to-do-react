@@ -50,6 +50,7 @@ class TaskDetails extends React.Component {
     this.handleButton = this.handleButton.bind(this);
 
     this.handleDetails = this.handleDetails.bind(this);
+    // this.handleAdd = this.handleAdd.bind(this);
   }
   handleChangeName(event) {
     this.setState({ name: event.target.value })
@@ -63,17 +64,17 @@ class TaskDetails extends React.Component {
   handleButton(event, id) {
     event.preventDefault();
     const whichTask = this.props.whichTask
-    if (whichTask){
+    if (whichTask) {
       console.log(this.props.id)
       this.props.handleUpdate(this.state, this.props.id);
-    }else{
+    } else {
       this.props.handleAdd(this.state);
     }
+    this.props.handleCancel();
   }
   handleDetails(event) {
     event.preventDefault();
-    this.props.handleDetails(this.task);
-    console.log('la la la la')
+    this.props.handleCancel();
   }
   componentDidMount() {
     const whichTask = this.props.whichTask;
@@ -86,7 +87,7 @@ class TaskDetails extends React.Component {
     }
   }
   render() {
-    // console.log(this.props.whichTask)
+    console.log(this.props.whichTask)
     return (
       <form className={this.props.className} onSubmit={this.handleButton}>
         <label>Name</label>
@@ -130,17 +131,20 @@ class Tasks extends React.Component {
       task: null,
     }
 
+    this.handleNewTask = this.handleNewTask.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleDetails = this.handleDetails.bind(this);
+
+    this.handleCancel = this.handleCancel.bind(this);
   }
   handleAdd(task) {
     this.props.handleAdd(task);
   }
-  handleUpdate(task, id){
+  handleUpdate(task, id) {
     this.props.handleUpdate(task, id);
   }
   handleRemove(id) {
@@ -152,10 +156,24 @@ class Tasks extends React.Component {
   handleBack() {
     this.props.handleBack();
   }
+
+  // Essas três funções fazem a mesma bosta
+  // arrumar essa bosta depois 
   handleDetails(task, id) {
     const show = this.state.showList;
-    if(task){ task.id =  id}
+    if (task) { task.id = id }
     this.setState({ showList: !show, task: task })
+  }
+  handleNewTask(){
+    const show = this.state.showList;
+    this.setState({showList: !show, task: null})
+    console.log('nova tarefa do mais')
+  }
+  handleCancel(){
+    const show = this.state.showList;
+    this.setState({showList: !show, task: null})
+    console.log('cancel')
+
   }
   render() {
     return (
@@ -163,6 +181,7 @@ class Tasks extends React.Component {
         <header>
           <h2>{this.props.projectName}</h2>
           <h2>Tasks</h2>
+          <button onClick={this.handleNewTask}></button>
           <button onClick={this.handleBack}></button>
         </header>
         {(this.state.showList) ?
@@ -187,6 +206,8 @@ class Tasks extends React.Component {
               className="task-details"
               handleAdd={this.handleAdd}
               handleDetails={this.handleDetails}
+              whichTask={false}
+              handleCancel={this.handleCancel}
             /> :
             <TaskDetails
               className="task-details"
@@ -194,6 +215,7 @@ class Tasks extends React.Component {
               handleDetails={this.handleDetails}
               whichTask={this.state.task}
               id={this.state.task.id}
+              handleCancel={this.handleCancel}
             />
         }
       </div>

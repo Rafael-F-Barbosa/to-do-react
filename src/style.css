@@ -129,11 +129,26 @@ form input{
     overflow: hidden;
 }
 .tasks header h2:nth-child(2){
-    grid-column-start: 1;
-    grid-column-end: 3;
-    text-align: center;
+    grid-column: 1;
+    grid-row: 2;
+    text-align: start;
 }
 .tasks header button{
+    grid-column: 2;
+    grid-row: 2;
+    text-align: center;
+    justify-self: end;
+
+    display: block;
+
+    width: 40px;
+    height: 40px;
+
+    background-image: url("add_symbol.png");
+    background-repeat: no-repeat;
+    background-color: #B0C4DE;
+} 
+.tasks header button:last-child{
     grid-column: 2;
     grid-row: 1;
     text-align: center;

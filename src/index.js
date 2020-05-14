@@ -66,10 +66,8 @@ class App extends React.Component {
   handleUpdateTask(task, id) {
     const shownProject = this.state.shownProject;
     let tasks = shownProject.tasks;
-    console.log(tasks)
     const index = tasks.findIndex((t) => String(t.id) === String(id))
     let updatedTask = tasks[index];
-    console.log(updatedTask)
     updatedTask.name = task.name
     updatedTask.date = task.date
     updatedTask.priority = task.priority

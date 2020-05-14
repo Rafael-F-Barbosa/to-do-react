@@ -65,7 +65,6 @@ class TaskDetails extends React.Component {
     event.preventDefault();
     const whichTask = this.props.whichTask
     if (whichTask) {
-      console.log(this.props.id)
       this.props.handleUpdate(this.state, this.props.id);
     } else {
       this.props.handleAdd(this.state);
@@ -87,7 +86,6 @@ class TaskDetails extends React.Component {
     }
   }
   render() {
-    console.log(this.props.whichTask)
     return (
       <form className={this.props.className} onSubmit={this.handleButton}>
         <label>Name</label>
@@ -167,13 +165,10 @@ class Tasks extends React.Component {
   handleNewTask(){
     const show = this.state.showList;
     this.setState({showList: !show, task: null})
-    console.log('nova tarefa do mais')
   }
   handleCancel(){
     const show = this.state.showList;
     this.setState({showList: !show, task: null})
-    console.log('cancel')
-
   }
   render() {
     return (

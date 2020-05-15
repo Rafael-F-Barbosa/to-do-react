@@ -1,12 +1,10 @@
 import React from 'react';
-
 class TaskElement extends React.Component {
   constructor(props) {
     super(props);
     this.task = this.props.task;
     this.handleRemove = this.handleRemove.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
-
     this.handleDetails = this.handleDetails.bind(this);
   }
   handleRemove(event) {
@@ -16,10 +14,9 @@ class TaskElement extends React.Component {
     this.props.handleCheck(event.target.parentElement.getAttribute('data-key'));
   }
   handleDetails(event) {
-    const id = event.target.parentElement.getAttribute('data-key');
-    this.props.handleDetails(this.task, id);
+    const taksId = event.target.parentElement.getAttribute('data-key');
+    this.props.handleDetails(this.task, taksId);
   }
-
   render() {
     const task = this.task;
     return (
@@ -30,7 +27,7 @@ class TaskElement extends React.Component {
             <input type="checkbox" onChange={this.handleCheck} />
         }
         <p>{task.name}</p>
-        <button className={"btn-details"} onClick={this.handleDetails}>details</button>
+        <button onClick={this.handleDetails} className={"btn-details"}>details</button>
         <button onClick={this.handleRemove}>delete</button>
       </li>
     )
@@ -48,9 +45,7 @@ class TaskDetails extends React.Component {
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangePriority = this.handleChangePriority.bind(this);
     this.handleButton = this.handleButton.bind(this);
-
     this.handleDetails = this.handleDetails.bind(this);
-    // this.handleAdd = this.handleAdd.bind(this);
   }
   handleChangeName(event) {
     this.setState({ name: event.target.value })
@@ -97,13 +92,11 @@ class TaskDetails extends React.Component {
         <input
           type="date"
           value={this.state.date}
-          onChange={this.handleChangeDate}
-        >
+          onChange={this.handleChangeDate}>
         </input>
         <label>Priority </label>
         <select value={this.state.priority}
-          onChange={this.handleChangePriority}
-        >
+          onChange={this.handleChangePriority}>
           <option value="low">low</option>
           <option value="medium">medium</option>
           <option value="high">high</option>
@@ -123,21 +116,17 @@ class TaskDetails extends React.Component {
 class Tasks extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       showList: true,
       task: null,
     }
-
-    this.handleNewTask = this.handleNewTask.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleDetails = this.handleDetails.bind(this);
-
-    this.handleCancel = this.handleCancel.bind(this);
+    this.handleNewTask = this.handleNewTask.bind(this);
   }
   handleAdd(task) {
     this.props.handleAdd(task);
@@ -154,21 +143,14 @@ class Tasks extends React.Component {
   handleBack() {
     this.props.handleBack();
   }
-
-  // Essas três funções fazem a mesma bosta
-  // arrumar essa bosta depois 
-  handleDetails(task, id) {
-    const show = this.state.showList;
-    if (task) { task.id = id }
-    this.setState({ showList: !show, task: task })
+  handleDetails(task = null, id) {
+    if (task) {
+      task.id = id
+    }
+    this.setState({ showList: !this.state.showList, task: task })
   }
-  handleNewTask(){
-    const show = this.state.showList;
-    this.setState({showList: !show, task: null})
-  }
-  handleCancel(){
-    const show = this.state.showList;
-    this.setState({showList: !show, task: null})
+  handleNewTask() {
+    this.setState({ showList: !this.state.showList, task: null })
   }
   render() {
     return (
@@ -185,12 +167,12 @@ class Tasks extends React.Component {
               this.props.tasks ?
                 this.props.tasks.map((task) =>
                   <TaskElement
+                    key={task.id}
                     task={task}
                     className={"task-item"}
                     handleRemove={this.handleRemove}
                     handleCheck={this.handleCheck}
                     handleDetails={this.handleDetails}
-                    key={task.id}
                   />
                 ) :
                 <h2>No tasks to show.</h2>
@@ -199,18 +181,18 @@ class Tasks extends React.Component {
           (!this.state.task) ?
             <TaskDetails
               className="task-details"
+              whichTask={false}
               handleAdd={this.handleAdd}
               handleDetails={this.handleDetails}
-              whichTask={false}
-              handleCancel={this.handleCancel}
+              handleCancel={this.handleDetails}
             /> :
             <TaskDetails
               className="task-details"
-              handleUpdate={this.handleUpdate}
-              handleDetails={this.handleDetails}
               whichTask={this.state.task}
               id={this.state.task.id}
-              handleCancel={this.handleCancel}
+              handleUpdate={this.handleUpdate}
+              handleDetails={this.handleDetails}
+              handleCancel={this.handleDetails}
             />
         }
       </div>

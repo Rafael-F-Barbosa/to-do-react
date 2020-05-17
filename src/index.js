@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Tasks } from "./tasks";
-import { Projects } from "./projects"
-import { dataHandler } from "./firebase"
+import { Projects } from "./projects";
+import { dataHandler } from "./firebase";
 import "./reset.css";
 import "./style.css";
 
@@ -12,8 +12,7 @@ class App extends React.Component {
     this.state = {
       projects: [],
       shownProject: null,
-    }
-
+    };
     this.handleRemoveProject = this.handleRemoveProject.bind(this);
     this.handleNavProject = this.handleNavProject.bind(this);
     this.handleAddProject = this.handleAddProject.bind(this);
@@ -33,8 +32,8 @@ class App extends React.Component {
   }
   handleRemoveProject(id) {
     let projects = this.state.projects;
-    projects = projects.filter((project) => String(project.id) !== String(id))
-    this.setState({ projects: projects })
+    projects = projects.filter((project) => String(project.id) !== String(id));
+    this.setState({ projects: projects });
     dataHandler.deleteProject(id);
   }
 
@@ -47,39 +46,46 @@ class App extends React.Component {
   handleAddTask(task) {
     const shownProject = this.state.shownProject;
     const tasks = this.state.shownProject.tasks || [];
-    dataHandler.saveTasks(shownProject, { name: task.name, date: task.date, priority: task.priority, done: false }).then((result) => {
-      tasks.push({
+    dataHandler
+      .saveTasks(shownProject, {
         name: task.name,
         date: task.date,
         priority: task.priority,
-        id: result,
         done: false
-      });
-      shownProject.tasks = tasks;
-      shownProject.id = result;
-      this.setState({
-        shownProject: shownProject,
-        idCounterTask: result
-      });
-    })
+      })
+      .then((result) => {
+        tasks.push({
+          name: task.name,
+          date: task.date,
+          priority: task.priority,
+          id: result,
+          done: false
+        });
+        shownProject.tasks = tasks;
+        shownProject.id = result;
+        this.setState({
+          shownProject: shownProject,
+          idCounterTask: result
+        });
+      })
   }
   handleUpdateTask(task, id) {
     const shownProject = this.state.shownProject;
     let tasks = shownProject.tasks;
-    const index = tasks.findIndex((t) => String(t.id) === String(id))
+    const index = tasks.findIndex((t) => String(t.id) === String(id));
     let updatedTask = tasks[index];
-    updatedTask.name = task.name
-    updatedTask.date = task.date
-    updatedTask.priority = task.priority
+    updatedTask.name = task.name;
+    updatedTask.date = task.date;
+    updatedTask.priority = task.priority;
     tasks.splice(index, 1, updatedTask);
     shownProject.tasks = tasks;
-    this.setState({shownProject: shownProject});
+    this.setState({ shownProject: shownProject });
     dataHandler.updateTask(shownProject.id, id, updatedTask);
   }
   handleRemoveTask(id) {
     const shownProject = this.state.shownProject;
     let tasks = this.state.shownProject.tasks;
-    tasks = tasks.filter((task) => String(task.id) !== String(id))
+    tasks = tasks.filter((task) => String(task.id) !== String(id));
     shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
     dataHandler.deleteTask(shownProject.id, id);
@@ -87,19 +93,19 @@ class App extends React.Component {
   handleCheckTask(id) {
     const shownProject = this.state.shownProject;
     let tasks = this.state.shownProject.tasks;
-    let task = tasks.find((task) => String(task.id) === String(id))
-    task.done = !task.done
+    let task = tasks.find((task) => String(task.id) === String(id));
+    task.done = !task.done;
     shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
     dataHandler.updateTask(shownProject.id, id, task);
   }
   handleBack() {
-    this.setState({ shownProject: null })
+    this.setState({ shownProject: null });
   }
 
   componentDidMount() {
     dataHandler.getProjects().then((result) => {
-      this.setState({ projects: result })
+      this.setState({ projects: result });
     })
   }
   render() {
@@ -126,8 +132,37 @@ class App extends React.Component {
     )
   }
 }
-
 ReactDOM.render(
   <App />,
   document.getElementById('root')
 );
+
+
+// Bug: When you create a new task, add it, and then
+// when you update it, it fails.
+
+// Bug: when you press enter in a  new task it'll 
+// cancel the submission instead of submit it
+// more problematic than I expected, maybe 
+// should change buttons to inputs type submit or click
+
+
+
+// Improvement -> alert the user when the conection 
+// with the firestore fails
+
+// Improvement -> improve the form of task creation,
+// with some data validation... etc
+
+// Improvment  -> solve form warnings
+
+// Improvement -> risk text and change text background
+// when a task is completed
+
+// Improvement -> Use some way to sort tasks and projects
+
+
+
+
+
+

@@ -45,7 +45,7 @@ class TaskDetails extends React.Component {
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangePriority = this.handleChangePriority.bind(this);
     this.handleButton = this.handleButton.bind(this);
-    this.handleDetails = this.handleDetails.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
   handleChangeName(event) {
     this.setState({ name: event.target.value })
@@ -56,7 +56,7 @@ class TaskDetails extends React.Component {
   handleChangePriority(event) {
     this.setState({ priority: event.target.value })
   }
-  handleButton(event, id) {
+  handleButton(event) {
     event.preventDefault();
     const whichTask = this.props.whichTask
     if (whichTask) {
@@ -65,8 +65,10 @@ class TaskDetails extends React.Component {
       this.props.handleAdd(this.state);
     }
     this.props.handleCancel();
+    
   }
-  handleDetails(event) {
+  handleCancel(event) {
+    console.log(event.currentTarget)
     event.preventDefault();
     this.props.handleCancel();
   }
@@ -82,7 +84,7 @@ class TaskDetails extends React.Component {
   }
   render() {
     return (
-      <form className={this.props.className} onSubmit={this.handleButton}>
+      <form onSubmit={this.handleButton} className={this.props.className}>
         <label>Name</label>
         <input
           value={this.state.name}
@@ -102,10 +104,10 @@ class TaskDetails extends React.Component {
           <option value="high">high</option>
         </select>
         <div>
-          <button onClick={this.handleDetails} className='btn-cancel'>cancel</button>
+          <button onClick={this.handleCancel} className='btn-cancel'>cancel</button>
           {!this.props.whichTask ?
-            <button className="btn-add">add</button> :
-            <button className="btn-add">update</button>
+            <button onClick={this.handleButton} className="btn-add">add</button> :
+            <button onClick={this.handleButton} className="btn-add">update</button>
           }
         </div>
       </form>
@@ -199,5 +201,4 @@ class Tasks extends React.Component {
     )
   }
 }
-
 export { Tasks };

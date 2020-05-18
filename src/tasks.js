@@ -68,7 +68,6 @@ class TaskDetails extends React.Component {
 
   }
   handleCancel(event) {
-    console.log(event.currentTarget)
     event.preventDefault();
     this.props.handleCancel();
   }
@@ -86,14 +85,19 @@ class TaskDetails extends React.Component {
     return (
       <form onSubmit={this.handleButton} className={this.props.className}>
         <label>Name</label>
-        <input
-          value={this.state.name}
-          onChange={this.handleChangeName}>
-        </input>
+        {!this.props.whichTask ?
+          <input
+            placeholder={this.state.name}
+            onChange={this.handleChangeName}>
+          </input> :
+          <input
+            value={this.state.name}
+            onChange={this.handleChangeName}>
+          </input>
+        }
         <label>Due date</label>
         <input
           type="date"
-          value={this.state.date}
           onChange={this.handleChangeDate}>
         </input>
         <label>Priority </label>
@@ -104,11 +108,11 @@ class TaskDetails extends React.Component {
           <option value="high">high</option>
         </select>
         <div>
-          <input type="click" 
-            onClick={this.handleCancel} 
+          <input type="click"
+            onClick={this.handleCancel}
             className='btn-cancel' defaultValue="cancel">
           </input>
-          
+
           {!this.props.whichTask ?
             <input type="submit"
               onClick={this.handleButton}

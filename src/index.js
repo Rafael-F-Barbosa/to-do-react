@@ -69,18 +69,23 @@ class App extends React.Component {
         });
       })
   }
-  handleUpdateTask(task, id) {
+  handleUpdateTask(task, taskId) {
     const shownProject = this.state.shownProject;
     let tasks = shownProject.tasks;
-    const index = tasks.findIndex((t) => String(t.id) === String(id));
+
+    const index = tasks.findIndex((t) => String(t.id) === String(taskId));
     let updatedTask = tasks[index];
+
     updatedTask.name = task.name;
     updatedTask.date = task.date;
     updatedTask.priority = task.priority;
+
     tasks.splice(index, 1, updatedTask);
     shownProject.tasks = tasks;
+
     this.setState({ shownProject: shownProject });
-    dataHandler.updateTask(shownProject.id, id, updatedTask);
+
+    dataHandler.updateTask(shownProject.id, taskId, updatedTask);
   }
   handleRemoveTask(id) {
     const shownProject = this.state.shownProject;
@@ -132,6 +137,7 @@ class App extends React.Component {
     )
   }
 }
+
 ReactDOM.render(
   <App />,
   document.getElementById('root')
@@ -140,20 +146,13 @@ ReactDOM.render(
 
 // Bug: When you create a new task, add it, and then
 // when you update it, it fails.
-
-// Bug: when you press enter in a  new task it'll 
-// cancel the submission instead of submit it
-// Done - I should redo the style only
-
-
+// No idea how to solve it by now
 
 // Improvement -> alert the user when the conection 
 // with the firestore fails
 
 // Improvement -> improve the form of task creation,
 // with some data validation... etc
-
-// Improvment  -> solve form warnings
 
 // Improvement -> risk text and change text background
 // when a task is completed

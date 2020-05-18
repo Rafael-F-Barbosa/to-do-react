@@ -235,21 +235,41 @@ form div{
 
     display: grid;
     grid-template-columns: 1fr 1fr;
-
-
 }
-form .btn-cancel{
+
+form div .btn-cancel{
     background-color: red;
+
+    height: 25px;
     width: 50%;
     justify-self: start;
+
+    border-radius: 4px;
+    border: none;
+    color: white;
+
+    text-align: center;
+
+    padding: 0;
+    
 }
-form .btn-add{
+form div .btn-add{
+    background-color: #4682B4;
+
+    height: 25px;
     width: 50%;
     justify-self: end;
+
+    border-radius: 4px;
+    border: none;
+
+    color: white;
+    padding: 0;
+
 }
-
-
-
+form .btn-cancel:hover, form .btn-add:hover{
+    transform: scale(1.05);
+}
 
 /* Media Queries */
 @media screen and (max-width: 700px) {

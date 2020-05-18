@@ -143,8 +143,7 @@ ReactDOM.render(
 
 // Bug: when you press enter in a  new task it'll 
 // cancel the submission instead of submit it
-// more problematic than I expected, maybe 
-// should change buttons to inputs type submit or click
+// Done - I should redo the style only
 
 
 

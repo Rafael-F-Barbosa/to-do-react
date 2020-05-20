@@ -147,6 +147,8 @@ ReactDOM.render(
 // Bug: When you create a new task, add it, and then
 // when you update it, it fails.
 // No idea how to solve it by now
+// Maybe if I add a real-time-listener it'll work 
+// properly, but I still don't get the error... 
 
 // Improvement -> alert the user when the conection 
 // with the firestore fails

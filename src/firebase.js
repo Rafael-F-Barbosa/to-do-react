@@ -57,16 +57,17 @@ const dataHandler = (() => {
   }
 
   function saveTasks(project, task) {
+    const projectId = project.id;
     return new Promise(function (resolve) {
-      projectsCollection.doc(project.id).collection('tasks').add(
+      projectsCollection.doc(projectId).collection('tasks').add(
         {
           name: task.name,
           date: task.date,
           priority: task.priority,
           done: task.done
         }
-      ).then(function (task) {
-        resolve(task.id)
+      ).then(function (result) {
+        resolve({taskId: result.id, projectId: projectId})
       })
     })
   }
@@ -79,6 +80,8 @@ const dataHandler = (() => {
   }
 
   function updateTask(projectId, taskId, task) {
+    console.log("p" + projectId, "tId" + taskId, "t" + task.name)
+    console.log("To update: "+ projectsCollection.doc(projectId).collection('tasks').doc(taskId))
     projectsCollection.doc(projectId).collection('tasks').doc(taskId).update(
       {
         name: task.name,

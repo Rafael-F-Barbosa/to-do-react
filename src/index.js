@@ -44,8 +44,8 @@ class App extends React.Component {
   }
 
   handleAddTask(task) {
-    const shownProject = this.state.shownProject;
-    const tasks = this.state.shownProject.tasks || [];
+    const shownProject = {...this.state.shownProject};
+    const tasks = [...this.state.shownProject.tasks] || [];
     dataHandler
       .saveTasks(shownProject, {
         name: task.name,
@@ -58,20 +58,20 @@ class App extends React.Component {
           name: task.name,
           date: task.date,
           priority: task.priority,
-          id: result,
+          id: result.taskId,
           done: false
         });
         shownProject.tasks = tasks;
-        shownProject.id = result;
+        shownProject.id = result.projectId;
         this.setState({
           shownProject: shownProject,
-          idCounterTask: result
+          // idCounterTask: result
         });
       })
   }
   handleUpdateTask(task, taskId) {
-    const shownProject = this.state.shownProject;
-    let tasks = shownProject.tasks;
+    const shownProject = {...this.state.shownProject};
+    let tasks = [...shownProject.tasks];
 
     const index = tasks.findIndex((t) => String(t.id) === String(taskId));
     let updatedTask = tasks[index];
@@ -86,6 +86,7 @@ class App extends React.Component {
     this.setState({ shownProject: shownProject });
 
     dataHandler.updateTask(shownProject.id, taskId, updatedTask);
+
   }
   handleRemoveTask(id) {
     const shownProject = this.state.shownProject;
@@ -102,7 +103,7 @@ class App extends React.Component {
     task.done = !task.done;
     shownProject.tasks = tasks;
     this.setState({ shownProject: shownProject });
-    dataHandler.updateTask(shownProject.id, id, task);
+    dataHandler.updateTask(shownProject.id, id, task)
   }
   handleBack() {
     this.setState({ shownProject: null });
@@ -112,6 +113,9 @@ class App extends React.Component {
     dataHandler.getProjects().then((result) => {
       this.setState({ projects: result });
     })
+  }
+  componentDidUpdate(){
+    console.log('Did Update')
   }
   render() {
     return (
@@ -143,12 +147,6 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-
-// Bug: When you create a new task, add it, and then
-// when you update it, it fails.
-// No idea how to solve it by now
-// Maybe if I add a real-time-listener it'll work 
-// properly, but I still don't get the error... 
 
 // Improvement -> alert the user when the conection 
 // with the firestore fails

@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import  Tasks  from "./Tasks/TaskController";
+import Aux from './hoc/Aux'
 import { Projects } from "./projects";
 import { dataHandler } from "./firebase";
 import "./reset.css";
@@ -119,7 +120,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Fragment>
+      <Aux>
         <h1>To-do-App</h1>
         {(this.state.shownProject) ?
           <Tasks
@@ -137,7 +138,7 @@ class App extends React.Component {
             handleNav={this.handleNavProject}
           />
         }
-      </Fragment>
+      </Aux>
     )
   }
 }

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import { Tasks } from "./tasks";
+import  Tasks  from "./Tasks/TaskController";
 import { Projects } from "./projects";
 import { dataHandler } from "./firebase";
 import "./reset.css";

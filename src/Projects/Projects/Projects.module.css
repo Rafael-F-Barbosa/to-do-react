@@ -1,0 +1,9 @@
+.Projects{
+    width: 500px;
+}
+
+@media screen and (max-width: 700px) {
+    .Projects{
+        width: 90%;
+    }
+}

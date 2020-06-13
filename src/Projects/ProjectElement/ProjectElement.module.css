@@ -1,0 +1,28 @@
+.ProjectElement{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border: 2px solid 	#4682B4;
+
+    margin-top: 4px;
+    padding: 0 3%;
+
+    width: 94%;
+    height: 35px;
+    line-height: 35px;
+
+    color: white;
+}
+.ProjectElement p{
+    width: 82%;
+    text-align: start;
+    overflow: hidden;
+}
+.ProjectElement button{
+    height: 25px;
+    width: 15%;
+
+    background-color: red;
+    color: white;
+}

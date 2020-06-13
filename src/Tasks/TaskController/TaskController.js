@@ -1,8 +1,8 @@
 import React from 'react';
 
-import TaskDetails from './TaskDetails'
-import TaskHeader from './TaskHeader'
-import TasksList from './TasksList'
+import TaskDetails from '../TaskDetails/TaskDetails'
+import TaskHeader from '../TaskHeader/TaskHeader'
+import TasksList from '../TaskList/TasksList'
 
 class TaskController extends React.Component {
   constructor(props) {

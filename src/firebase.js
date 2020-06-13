@@ -101,7 +101,7 @@ const dataHandler = (() => {
   }
 })();
 
-export { dataHandler };
+export default dataHandler;
 
 
 

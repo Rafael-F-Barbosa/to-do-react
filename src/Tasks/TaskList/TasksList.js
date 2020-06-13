@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-import TaskElement from './TaskElement'
+import TaskElement from '../TaskElement/TaskElement'
 
 const taskList = (props) => (
     <ul>

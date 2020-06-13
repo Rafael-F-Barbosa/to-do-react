@@ -1,0 +1,16 @@
+.ProjectForm{
+    display: flex;
+    justify-content: space-between;
+    
+    width: 100%;   
+    margin-bottom: 10px;
+}
+.ProjectForm button{
+    color: white;
+    background-color: #4682B4;
+
+    width: 30%;
+}
+.ProjectForm input{
+    width: 65%;
+}

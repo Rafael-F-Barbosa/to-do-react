@@ -3,6 +3,7 @@ import React from 'react';
 import TaskDetails from '../TaskDetails/TaskDetails'
 import TaskHeader from '../TaskHeader/TaskHeader'
 import TasksList from '../TaskList/TasksList'
+import classes from './TaskController.module.css';
 
 class TaskController extends React.Component {
   constructor(props) {
@@ -39,37 +40,29 @@ class TaskController extends React.Component {
   render() {
 
     let shownTaskThing = null;
-    
+
     if (this.state.showList) {
-      shownTaskThing = <TasksList
-        tasks={this.props.tasks}
-        handleRemove={this.handleRemove}
-        handleDetails={this.handleDetails}
-        handleCheck={this.handleCheck}
-      />
-    }else{
-      if(!this.state.task){
-        shownTaskThing = <TaskDetails
-              className="task-details"
-              whichTask={false}
-              handleAdd={this.handleAdd}
-              handleDetails={this.handleDetails}
-              handleCancel={this.handleDetails}
-            />
-      }else{
-        shownTaskThing = <TaskDetails
-              className="task-details"
-              whichTask={this.state.task}
-              id={this.state.task.id}
-              handleUpdate={this.handleUpdate}
-              handleDetails={this.handleDetails}
-              handleCancel={this.handleDetails}
-            />
-      }
+      shownTaskThing =
+        <TasksList
+          tasks={this.props.tasks}
+          handleRemove={this.handleRemove}
+          handleDetails={this.handleDetails}
+          handleCheck={this.handleCheck}
+        />
+    } else {
+      shownTaskThing =
+        <TaskDetails
+          whichTask={this.state.task}
+          id={this.state.task?this.state.task.id:null}
+          handleUpdate={this.state.task?this.handleUpdate:this.handleAdd}
+          handleDetails={this.handleDetails}
+          handleCancel={this.handleDetails}
+        />
     }
 
+
     return (
-      <div className={'tasks'}>
+      <div className={classes.Tasks}>
         <TaskHeader
           projectName={this.props.projectName}
           handleNewTask={this.handleNewTask}

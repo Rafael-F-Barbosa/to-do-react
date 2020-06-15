@@ -11,7 +11,6 @@ const taskList = (props) => (
                     <TaskElement
                         key={task.id}
                         task={task}
-                        className={"task-item"}
                         handleRemove={props.handleRemove}
                         handleCheck={props.handleCheck}
                         handleDetails={props.handleDetails}

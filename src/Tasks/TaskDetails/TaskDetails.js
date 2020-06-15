@@ -1,5 +1,5 @@
 import React from 'react'
-
+import classes from './TaskDetails.module.css'
 class TaskDetails extends React.Component {
     constructor(props) {
       super(props);
@@ -8,7 +8,6 @@ class TaskDetails extends React.Component {
         date: new Date(),
         priority: 'low',
       }
-
     }
     handleChangeName = (event) => {
       this.setState({ name: event.target.value })
@@ -25,7 +24,7 @@ class TaskDetails extends React.Component {
       if (whichTask) {
         this.props.handleUpdate(this.state, this.props.id);
       } else {
-        this.props.handleAdd(this.state);
+        this.props.handleUpdate(this.state);
       }
       this.props.handleCancel();
   
@@ -46,7 +45,7 @@ class TaskDetails extends React.Component {
     }
     render() {
       return (
-        <form onSubmit={this.handleButton} className={this.props.className}>
+        <form onSubmit={this.handleButton} className={classes.TaskDetails}>
           <label>Name</label>
           {!this.props.whichTask ?
             <input

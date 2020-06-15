@@ -1,0 +1,69 @@
+.Tasks{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Tasks header{
+    width: 100%;
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 85% 15%;
+    align-items: center;
+}
+.Tasks header h2{
+    width: 100%;
+
+    text-align: start;
+
+    margin: 5px 0;
+
+    overflow: hidden;
+}
+.Tasks header h2:nth-child(2){
+    grid-column: 1;
+    grid-row: 2;
+    text-align: start;
+}
+.Tasks header button{
+    grid-column: 2;
+    grid-row: 2;
+    text-align: center;
+    justify-self: end;
+
+    display: block;
+
+    border: none;
+
+    width: 40px;
+    height: 40px;
+
+    background-image: url("../../add_symbol.png");
+    background-repeat: no-repeat;
+    background-color: #B0C4DE;
+} 
+.Tasks header button:last-child{
+    grid-column: 2;
+    grid-row: 1;
+    text-align: center;
+    justify-self: end;
+
+    display: block;
+
+    width: 40px;
+    height: 40px;
+
+    background-image: url("../../multimedia-option.png");
+    background-repeat: no-repeat;
+    background-color: #B0C4DE;
+}
+.Tasks ul{
+    width: 100%;
+}
+
+@media screen and (max-width: 700px) {
+    .Tasks{
+        width: 90%;
+    }
+}

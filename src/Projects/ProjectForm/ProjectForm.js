@@ -1,5 +1,7 @@
 import React from 'react'
 import classes from './ProjectForm.module.css'
+
+import Button from '../../UI/Button/Button'
 class ProjectForm extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +23,9 @@ class ProjectForm extends React.Component {
           placeholder={this.state.value}
           onChange={this.handleChange}>
         </input>
-        <button> add </button>
+        <Button
+          style={{height: "100%"}}
+        > add </Button>
       </form>
     )
   }

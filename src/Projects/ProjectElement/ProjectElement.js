@@ -1,5 +1,7 @@
 import React from 'react'
 import classes from './ProjectElement.module.css'
+import Button from '../../UI/Button/Button'
+
 
 class ProjectElement extends React.Component {
     handleRemove = (event) => {
@@ -7,7 +9,7 @@ class ProjectElement extends React.Component {
     }
     handleNav = (event) => {
         const element = event.target;
-        if (element.classList.contains('delete-btn')) {
+        if (element.id === 'button') {
             return;
         }
         if (element.getAttribute('data-key'))
@@ -21,11 +23,11 @@ class ProjectElement extends React.Component {
                 className={classes.ProjectElement}
                 onClick={this.handleNav}>
                 <p>{this.props.project.name}</p>
-                <button
-                    className={'delete-btn'}
-                    onClick={this.handleRemove}>
-                    delete
-                </button>
+                <Button
+                    type={'Danger'}
+                    clicked={this.handleRemove}
+                >delete
+                </Button>
             </li>
         )
     }

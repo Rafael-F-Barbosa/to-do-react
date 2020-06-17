@@ -17,6 +17,7 @@ class TaskController extends React.Component {
     this.props.handleAdd(task);
   }
   handleUpdate = (task, id) => {
+    console.log('\n\nid:', id)
     this.props.handleUpdate(task, id);
   }
   handleRemove = (id) => {
@@ -39,10 +40,10 @@ class TaskController extends React.Component {
   }
   render() {
 
-    let shownTaskThing = null;
+    let taskListOrDetails = null;
 
     if (this.state.showList) {
-      shownTaskThing =
+      taskListOrDetails =
         <TasksList
           tasks={this.props.tasks}
           handleRemove={this.handleRemove}
@@ -50,7 +51,7 @@ class TaskController extends React.Component {
           handleCheck={this.handleCheck}
         />
     } else {
-      shownTaskThing =
+      taskListOrDetails =
         <TaskDetails
           whichTask={this.state.task}
           id={this.state.task?this.state.task.id:null}
@@ -68,7 +69,7 @@ class TaskController extends React.Component {
           handleNewTask={this.handleNewTask}
           handleBack={this.handleBack}
         />
-        {shownTaskThing}
+        {taskListOrDetails}
       </div>
     )
   }

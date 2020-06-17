@@ -1,10 +1,10 @@
 import React from 'react';
-import TaskController from "./Tasks/TaskController/TaskController";
-import Aux from './hoc/Aux'
-import Projects from "./Projects/Projects/Projects";
-import dataHandler from "./firebase";
+import TaskController from "../Tasks/TaskController/TaskController";
+import Aux from '../hoc/Aux'
+import Projects from "../Projects/Projects/Projects";
+import dataHandler from "../firebase";
 import "./reset.css";
-import "./style.css";
+import "./App.css";
 
 class App extends React.Component {
     constructor(props) {
@@ -147,9 +147,6 @@ export default App;
 
 // Improvement -> improve the form of task creation,
 // with some data validation... etc
-
-// Improvement -> risk text and change text background
-// when a task is completed
 
 // Improvement -> Use some way to sort tasks and projects
 

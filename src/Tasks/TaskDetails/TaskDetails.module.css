@@ -1,56 +1,15 @@
-form div{
-    margin-top: 15px;
-
-    width: 100%;
-    height: 25px;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-form div .btn-cancel{
-    background-color: red;
-
-    height: 25px;
-    width: 50%;
-    justify-self: start;
-
-    border-radius: 4px;
-    border: none;
-    color: white;
-
-    text-align: center;
-
-    padding: 0;
-    
-}
-form div .btn-add{
-    background-color: #4682B4;
-
-    height: 25px;
-    width: 50%;
-    justify-self: end;
-
-    border-radius: 4px;
-    border: none;
-
-    color: white;
-    padding: 0;
-
-}
-form .btn-cancel:hover, form .btn-add:hover{
-    transform: scale(1.05);
-}
-
 .TaskDetails{
-    margin-top: 15px;
+    margin-top: 5px;
     display: flex;
     flex-direction: column;
     width: 300px;
 }
+.TaskDetails label{
+    margin-top: 10px;
+}
 .TaskDetails input{
     width: 97%;
-    color: grey;
+    color: black;
 }
 .TaskDetails select{
     width: 100%;
@@ -61,6 +20,13 @@ form .btn-cancel:hover, form .btn-add:hover{
 
     height: 30px;
 
-    color: grey;
+    color: black;
 
+}
+.TaskDetails div{
+    margin-top: 15px;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
 }

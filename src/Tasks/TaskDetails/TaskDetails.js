@@ -1,5 +1,7 @@
 import React from 'react'
 import classes from './TaskDetails.module.css'
+
+import Button from '../../UI/Button/Button'
 class TaskDetails extends React.Component {
     constructor(props) {
       super(props);
@@ -70,23 +72,12 @@ class TaskDetails extends React.Component {
             <option value="high">high</option>
           </select>
           <div>
-            <input type="click"
-              onClick={this.handleCancel}
-              className='btn-cancel' defaultValue="cancel">
-            </input>
-  
-            {!this.props.whichTask ?
-              <input type="submit"
-                onClick={this.handleButton}
-                className="btn-add"
-                value="add">
-              </input> :
-              <input type="submit"
-                onClick={this.handleButton}
-                className="btn-add"
-                value="update">
-              </input>
-            }
+            <Button 
+            type={"Danger"}
+            clicked={this.handleCancel}>cancel</Button>
+            <Button clicked={this.handleButton}
+            >{!this.props.whichTask ?'add':'update'}
+              </Button>
           </div>
         </form>
       )

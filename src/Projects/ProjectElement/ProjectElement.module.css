@@ -19,3 +19,8 @@
     text-align: start;
     overflow: hidden;
 }
+.ProjectElement div{
+    display: flex;
+    width: 30%;
+    height: 25px;
+}

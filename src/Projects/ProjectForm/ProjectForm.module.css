@@ -1,12 +1,14 @@
 .ProjectForm{
     display: flex;
-    /* justify-content: space-between; */
-    
     width: 100%;   
     margin-bottom: 10px;
 }
+.ProjectForm div{
+    display: flex;
+    width: 30%;   
+}
 .ProjectForm input{
-    width: 85%;
+    width: 70%;
 }
 .ProjectForm button{
     height: 30px;

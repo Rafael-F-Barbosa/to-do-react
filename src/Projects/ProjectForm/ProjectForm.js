@@ -23,9 +23,9 @@ class ProjectForm extends React.Component {
           placeholder={this.state.value}
           onChange={this.handleChange}>
         </input>
-        <Button
-          style={{height: "100%"}}
-        > add </Button>
+        <div>
+          <Button>add</Button>
+        </div>
       </form>
     )
   }

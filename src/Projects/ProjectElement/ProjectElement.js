@@ -23,11 +23,12 @@ class ProjectElement extends React.Component {
                 className={classes.ProjectElement}
                 onClick={this.handleNav}>
                 <p>{this.props.project.name}</p>
-                <Button
-                    type={'Danger'}
-                    clicked={this.handleRemove}
-                >delete
-                </Button>
+                <div>
+                    <Button
+                        type={'Danger'}
+                        clicked={this.handleRemove}
+                    >delete</Button>
+                </div>
             </li>
         )
     }

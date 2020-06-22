@@ -1,8 +1,9 @@
 import React from 'react';
 
-import ProjectElement from '../ProjectElement/ProjectElement'
 import ProjectForm from '../ProjectForm/ProjectForm'
 import classes from './Projects.module.css'
+import ProjectList from '../ProjectList/ProjectList'
+
 class Projects extends React.Component {
   handleAdd = (name) => {
     this.props.handleAdd(name);
@@ -18,18 +19,11 @@ class Projects extends React.Component {
       <div className={classes.Projects}>
         <h2>Projects</h2>
         <ProjectForm handleAdd={this.handleAdd} />
-        <ol>
-          {
-            this.props.projects.map((project) =>
-              <ProjectElement
-                project={project}
-                handleRemove={this.handleRemove}
-                handleNav={this.handleNav}
-                key={project.id}
-              />
-            )
-          }
-        </ol>
+        <ProjectList 
+        projects={this.props.projects}
+        handleRemove={this.handleRemove}
+        handleNav={this.handleNav}
+        />
       </div>
     )
   }

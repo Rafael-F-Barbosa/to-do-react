@@ -17,7 +17,6 @@ class TaskController extends React.Component {
     this.props.handleAdd(task);
   }
   handleUpdate = (task, id) => {
-    console.log('\n\nid:', id)
     this.props.handleUpdate(task, id);
   }
   handleRemove = (id) => {

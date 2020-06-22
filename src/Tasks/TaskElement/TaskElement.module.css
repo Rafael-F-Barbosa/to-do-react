@@ -1,19 +1,39 @@
 .TaskElement{
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    height: 35px;
+    width: 98%;
+    height: 250px;
     line-height: 35px;
     margin-top: 4px;
-    border: 2px solid 	#4682B4;
-    color: white;
+    border: 4px solid 	#4682B4;
+    border-radius: 10px;
+    color: black;
+    padding: 5px;
+    box-sizing: border-box;
 }
 .TaskElement div{
-    width: 40%;
+    width: 70%;
     height: 25px;
     display: flex;
+    padding: 0 5px;
     justify-content: space-between;
+}
+.TaskElement div.Title{
+    display: flex;
+    justify-content: center;
+}
+.TaskElement div.Status{
+    cursor: pointer;
+}
+.Title p{
+    display: flex;
+    justify-content: center;
+}
+.TaskElement div p{
+    display: block;
+    padding: 0 5px;
 }
 .Checkbox{
     width: 20px;
@@ -27,7 +47,7 @@
     overflow: hidden;
 }
 
-.Done p{
-    text-decoration: line-through grey;
-    color: grey;
+.Done{
+    background-color: #C0C0C0;
+    border: 4px solid black ;
 }

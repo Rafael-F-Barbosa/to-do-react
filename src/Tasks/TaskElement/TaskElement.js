@@ -8,9 +8,6 @@ class TaskElement extends React.Component {
   handleRemove = (event) => {
     this.props.handleRemove(event.target.parentElement.getAttribute('data-key'));
   }
-  handleCheck = (event) => {
-    this.props.handleCheck(event.target.parentElement.getAttribute('data-key'));
-  }
   handleDetails = (event) => {
     this.props.handleDetails(this.props.task, event.target.parentElement.parentElement.getAttribute('data-key'));
   }
@@ -22,15 +19,32 @@ class TaskElement extends React.Component {
     }
     return (
       <li className={apliedClasses} data-key={task.id}>
+        
+        <div className={classes.Title}>
+          <p>{task.name}</p>
+        </div>
 
-        {
-          <input className={classes.Checkbox} id="checkbox" type="checkbox" onChange={this.handleCheck} defaultChecked={task.done} />
-        }
-        <label htmlFor="checkbox"></label>
-
-        <p>{task.name}</p>
+        <div className={classes.Status}>
+          <label>Status: </label>
+          {
+            task.done ?
+              <p onClick={() => this.props.handleCheck(task.id)}>DONE</p> :
+              <p onClick={() => this.props.handleCheck(task.id)}>TO DO</p>
+          }
+        </div>
+        
         <div>
-          <Button clicked={this.handleDetails} type={null}>details</Button>
+          <label>Date: </label>
+          <p>{task.date.seconds?task.date.seconds:null}</p>
+        </div>
+
+        <div>
+          <label>Priority: </label>
+          <p>{task.priority}</p>
+        </div>
+
+        <div>
+          <Button clicked={this.handleDetails} type={null}>edit</Button>
           <Button clicked={this.handleRemove} type='Danger'>delete</Button>
         </div>
       </li>

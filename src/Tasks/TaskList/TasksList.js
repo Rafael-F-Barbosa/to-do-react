@@ -2,9 +2,9 @@
 import React from 'react'
 
 import TaskElement from '../TaskElement/TaskElement'
-
+import classes from './TaskList.module.css'
 const taskList = (props) => (
-    <ul>
+    <ul className={classes.TaskItems}>
         {
             props.tasks ?
                 props.tasks.map((task) =>

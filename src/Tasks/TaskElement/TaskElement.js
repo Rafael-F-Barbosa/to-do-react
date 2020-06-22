@@ -2,15 +2,9 @@ import React from 'react';
 import Button from '../../UI/Button/Button'
 import classes from './TaskElement.module.css'
 
-// Esse código tá zero reutilizávelm eu deveria receber essa info fo pai que chama o Task Element
+// only a render method, change to other type of component
 
 class TaskElement extends React.Component {
-  handleRemove = (event) => {
-    this.props.handleRemove(event.target.parentElement.getAttribute('data-key'));
-  }
-  handleDetails = (event) => {
-    this.props.handleDetails(this.props.task, event.target.parentElement.parentElement.getAttribute('data-key'));
-  }
   render() {
     const task = this.props.task;
     let apliedClasses = classes.TaskElement;
@@ -44,8 +38,8 @@ class TaskElement extends React.Component {
         </div>
 
         <div>
-          <Button clicked={this.handleDetails} type={null}>edit</Button>
-          <Button clicked={this.handleRemove} type='Danger'>delete</Button>
+          <Button clicked={()=>this.props.handleDetails(task.id)} type={null}>edit</Button>
+          <Button clicked={()=>this.props.handleRemove(task.id)} type='Danger'>delete</Button>
         </div>
       </li>
     )

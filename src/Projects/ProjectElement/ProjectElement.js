@@ -2,7 +2,6 @@ import React from 'react'
 import classes from './ProjectElement.module.css'
 import Button from '../../UI/Button/Button'
 
-
 class ProjectElement extends React.Component {
     handleRemove = (event) => {
         this.props.handleRemove(event.target.parentElement.getAttribute('data-key'));
@@ -13,20 +12,21 @@ class ProjectElement extends React.Component {
             return;
         }
         if (element.getAttribute('data-key'))
-            this.props.handleNav(element.getAttribute('data-key'));
+            this.props.handleNav(this.props.project.id);
         else if (element.parentElement.getAttribute('data-key'))
-            this.props.handleNav(element.parentElement.getAttribute('data-key'));
+            this.props.handleNav(this.props.project.id);
     }
     render() {
+        const projectId = this.props.project.id;
         return (
-            <li data-key={this.props.project.id}
+            <li data-key={projectId}
                 className={classes.ProjectElement}
                 onClick={this.handleNav}>
                 <p>{this.props.project.name}</p>
                 <div>
                     <Button
                         type={'Danger'}
-                        clicked={this.handleRemove}
+                        clicked={()=>this.props.handleRemove(projectId)}
                     >delete</Button>
                 </div>
             </li>

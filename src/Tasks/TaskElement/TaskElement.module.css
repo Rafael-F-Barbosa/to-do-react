@@ -48,6 +48,9 @@
 }
 
 .Done{
-    background-color: #C0C0C0;
-    border: 4px solid black ;
+    background-color: 		#4F4F4F	;
+    border: 4px solid #A9A9A9 ;
+}
+.Done div.Title p{
+    text-decoration: line-through;
 }

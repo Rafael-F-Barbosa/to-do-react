@@ -2,12 +2,26 @@ import React from 'react'
 import classes from './TaskDetails.module.css'
 
 import Button from '../../UI/Button/Button'
+
+const makeNumberTwoDigits = (number) => {
+  let formatedNumber = null;
+  if(number<10 && number > -1){
+    formatedNumber = "0"+ number;
+  }
+  return formatedNumber || number;
+}
+
 class TaskDetails extends React.Component {
     constructor(props) {
       super(props);
+      const d = new Date();
+      const date = makeNumberTwoDigits(d.getDate());
+      const month = makeNumberTwoDigits(d.getMonth() + 1);
+      const year = d.getFullYear();
+
       this.state = {
-        name: 'Nome da nova tarefa...',
-        date: new Date(),
+        name: '',
+        date: `${year}-${month}-${date}`,
         priority: 'low',
       }
     }
@@ -22,8 +36,14 @@ class TaskDetails extends React.Component {
     }
     handleButton = (event) => {
       event.preventDefault();
-      const whichTask = this.props.whichTask
-      if (whichTask) {
+
+      if(this.state.name === ''){
+        alert('Write a name!')
+        return;
+      }
+
+      const addOrUpdateTask = this.props.whichTask;
+      if (addOrUpdateTask) {
         this.props.handleUpdate(this.state, this.props.id);
       } else {
         this.props.handleUpdate(this.state);
@@ -59,11 +79,14 @@ class TaskDetails extends React.Component {
               onChange={this.handleChangeName}>
             </input>
           }
+          
           <label>Due date</label>
           <input
             type="date"
-            onChange={this.handleChangeDate}>
+            onChange={this.handleChangeDate}
+            value={this.state.date}> 
           </input>
+
           <label>Priority </label>
           <select value={this.state.priority}
             onChange={this.handleChangePriority}>
@@ -71,6 +94,7 @@ class TaskDetails extends React.Component {
             <option value="medium">medium</option>
             <option value="high">high</option>
           </select>
+
           <div>
             <Button 
             type={"Danger"}
@@ -84,4 +108,4 @@ class TaskDetails extends React.Component {
     }
   }
 
-  export default TaskDetails
+  export default TaskDetails;

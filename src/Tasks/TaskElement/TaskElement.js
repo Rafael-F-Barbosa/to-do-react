@@ -2,11 +2,10 @@ import React from 'react';
 import Button from '../../UI/Button/Button'
 import classes from './TaskElement.module.css'
 
-// only a render method, change to other type of component
-
 class TaskElement extends React.Component {
   render() {
     const task = this.props.task;
+
     let apliedClasses = classes.TaskElement;
     if (task.done) {
       apliedClasses = [classes.TaskElement, classes.Done].join(' ');
@@ -29,7 +28,7 @@ class TaskElement extends React.Component {
         
         <div>
           <label>Date: </label>
-          <p>{task.date.seconds?task.date.seconds:null}</p>
+          <p>{task.date?task.date:null}</p>
         </div>
 
         <div>
@@ -38,7 +37,7 @@ class TaskElement extends React.Component {
         </div>
 
         <div>
-          <Button clicked={()=>this.props.handleDetails(task.id)} type={null}>edit</Button>
+          <Button clicked={()=>this.props.handleDetails(task, task.id)} type={null}>edit</Button>
           <Button clicked={()=>this.props.handleRemove(task.id)} type='Danger'>delete</Button>
         </div>
       </li>

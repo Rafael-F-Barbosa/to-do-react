@@ -147,10 +147,7 @@ export default App;
 
 // Improvement -> improve the form of task creation,
 // with some data validation... etc
-
-// Improvement -> Use some way to sort tasks and projects
-
-
+// Data validation and general use
 
 
 

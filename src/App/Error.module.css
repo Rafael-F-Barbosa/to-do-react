@@ -1,0 +1,10 @@
+.Error{
+    margin-top: 25px;
+    width: 70%;
+    display: block;
+    text-align: start;
+    color: red;
+}
+.Error p{
+    margin-top: 8px;
+}

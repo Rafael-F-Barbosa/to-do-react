@@ -18,8 +18,9 @@ const dataHandler = (() => {
   const projectsCollection = db.collection('projects');
 
   function getProjects() {
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
       const projects = [];
+      let verifyConection = false;
       projectsCollection.get().then(snapshot => {
         snapshot.docs.forEach(doc => {
           const projectId = doc.id;
@@ -39,11 +40,16 @@ const dataHandler = (() => {
               })
             })
           })
+          verifyConection = true;
           project.tasks = tasks;
           projects.push(project);
         })
-        resolve(projects);
-      });
+        if(verifyConection){
+          resolve(projects);
+        }else{
+          reject('Ocorreu algum erro!')
+        }
+      })
     })
   }
   function saveProjects(project) {
@@ -67,7 +73,7 @@ const dataHandler = (() => {
           done: task.done
         }
       ).then(function (result) {
-        resolve({taskId: result.id, projectId: projectId})
+        resolve({ taskId: result.id, projectId: projectId })
       })
     })
   }
@@ -81,7 +87,7 @@ const dataHandler = (() => {
 
   function updateTask(projectId, taskId, task) {
     console.log("p" + projectId, "tId" + taskId, "t" + task.name)
-    console.log("To update: "+ projectsCollection.doc(projectId).collection('tasks').doc(taskId))
+    console.log("To update: " + projectsCollection.doc(projectId).collection('tasks').doc(taskId))
     projectsCollection.doc(projectId).collection('tasks').doc(taskId).update(
       {
         name: task.name,

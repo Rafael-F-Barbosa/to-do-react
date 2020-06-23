@@ -1,10 +1,13 @@
 import React from 'react';
 import TaskController from "../Tasks/TaskController/TaskController";
 import Aux from '../hoc/Aux'
+import MainHeader from '../UI/MainHeader/MainHeader'
 import Projects from "../Projects/Projects/Projects";
 import dataHandler from "../firebase";
 import "./reset.css";
 import "./App.css";
+import classes from './Error.module.css'
+
 
 class App extends React.Component {
     constructor(props) {
@@ -12,6 +15,7 @@ class App extends React.Component {
         this.state = {
             projects: [],
             shownProject: null,
+            firebaseError: false,
         };
         this.handleRemoveProject = this.handleRemoveProject.bind(this);
         this.handleNavProject = this.handleNavProject.bind(this);
@@ -64,9 +68,12 @@ class App extends React.Component {
                 shownProject.tasks = tasks;
                 shownProject.id = result.projectId;
                 this.setState({
-                    shownProject: shownProject,                });
+                    shownProject: shownProject,
+                });
             })
     }
+
+
     handleUpdateTask(task, taskId) {
         const shownProject = { ...this.state.shownProject };
         let tasks = [...shownProject.tasks];
@@ -110,28 +117,41 @@ class App extends React.Component {
     componentDidMount() {
         dataHandler.getProjects().then((result) => {
             this.setState({ projects: result });
+            this.setState({ firebaseError: false });
+        }).catch((err) => {
+            this.setState({ firebaseError: true });
         })
     }
     render() {
+        const appController = (this.state.shownProject) ?
+            <TaskController
+                projectName={this.state.shownProject.name}
+                tasks={this.state.shownProject.tasks}
+                handleAdd={this.handleAddTask}
+                handleUpdate={this.handleUpdateTask}
+                handleRemove={this.handleRemoveTask}
+                handleCheck={this.handleCheckTask}
+                handleBack={this.handleBack} /> :
+            <Projects
+                projects={this.state.projects}
+                handleAdd={this.handleAddProject}
+                handleRemove={this.handleRemoveProject}
+                handleNav={this.handleNavProject}
+            />
         return (
             <Aux>
-                <h1>To-do-App</h1>
-                {(this.state.shownProject) ?
-                    <TaskController
-                        projectName={this.state.shownProject.name}
-                        tasks={this.state.shownProject.tasks}
-                        handleAdd={this.handleAddTask}
-                        handleUpdate={this.handleUpdateTask}
-                        handleRemove={this.handleRemoveTask}
-                        handleCheck={this.handleCheckTask}
-                        handleBack={this.handleBack} /> :
-                    <Projects
-                        projects={this.state.projects}
-                        handleAdd={this.handleAddProject}
-                        handleRemove={this.handleRemoveProject}
-                        handleNav={this.handleNavProject}
-                    />
+                <MainHeader />
+                {!this.state.firebaseError ?
+                    appController :
+                    <div className={classes.Error}>
+                        <p>
+                            Problem reaching firebase.
+                        </p>
+                        <p>Reload the page and verify your conection.</p>
+                    </div>
+
                 }
+
             </Aux>
         )
     }
@@ -140,14 +160,7 @@ class App extends React.Component {
 
 export default App;
 
-
-
-// Improvement -> alert the user when the conection 
-// with the firestore fails
-
-// Improvement -> improve the form of task creation,
-// with some data validation... etc
-// Data validation and general use
+// Move images to public
 
 
 

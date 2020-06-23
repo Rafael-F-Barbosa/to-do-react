@@ -4,6 +4,7 @@
     align-items: center;
 
     border: 2px solid 	#4682B4;
+    border-radius: 5px;
 
     margin-top: 4px;
     padding: 0 3%;
@@ -21,6 +22,6 @@
 }
 .ProjectElement div{
     display: flex;
-    width: 30%;
+    width: 25%;
     height: 25px;
 }

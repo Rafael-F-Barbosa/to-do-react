@@ -17,37 +17,28 @@ class App extends React.Component {
             shownProject: null,
             firebaseError: false,
         };
-        this.handleRemoveProject = this.handleRemoveProject.bind(this);
-        this.handleNavProject = this.handleNavProject.bind(this);
-        this.handleAddProject = this.handleAddProject.bind(this);
-
-        this.handleAddTask = this.handleAddTask.bind(this);
-        this.handleUpdateTask = this.handleUpdateTask.bind(this);
-        this.handleRemoveTask = this.handleRemoveTask.bind(this);
-        this.handleCheckTask = this.handleCheckTask.bind(this);
-        this.handleBack = this.handleBack.bind(this);
     }
-    handleAddProject(name) {
+    handleAddProject = (name) => {
         dataHandler.saveProjects({ name: name }).then((result) => {
             const projects = this.state.projects;
             projects.push({ name: name, id: result });
             this.setState({ projects: projects });
         })
     }
-    handleRemoveProject(id) {
+    handleRemoveProject = (id) => {
         let projects = this.state.projects;
         projects = projects.filter((project) => String(project.id) !== String(id));
         this.setState({ projects: projects });
         dataHandler.deleteProject(id);
     }
 
-    handleNavProject(id) {
+    handleNavProject = (id) => {
         let projects = this.state.projects;
         const project = projects.find((project) => String(project.id) === String(id));
         this.setState({ shownProject: project });
     }
 
-    handleAddTask(task) {
+    handleAddTask = (task) => {
         const shownProject = { ...this.state.shownProject };
         const tasks = [...this.state.shownProject.tasks] || [];
         dataHandler
@@ -74,7 +65,7 @@ class App extends React.Component {
     }
 
 
-    handleUpdateTask(task, taskId) {
+    handleUpdateTask = (task, taskId) => {
         const shownProject = { ...this.state.shownProject };
         let tasks = [...shownProject.tasks];
 
@@ -93,7 +84,7 @@ class App extends React.Component {
         dataHandler.updateTask(shownProject.id, taskId, updatedTask);
 
     }
-    handleRemoveTask(id) {
+    handleRemoveTask = (id) => {
         const shownProject = this.state.shownProject;
         let tasks = this.state.shownProject.tasks;
         tasks = tasks.filter((task) => String(task.id) !== String(id));
@@ -101,7 +92,7 @@ class App extends React.Component {
         this.setState({ shownProject: shownProject });
         dataHandler.deleteTask(shownProject.id, id);
     }
-    handleCheckTask(id) {
+    handleCheckTask = (id) => {
         const shownProject = this.state.shownProject;
         let tasks = this.state.shownProject.tasks;
         let task = tasks.find((task) => String(task.id) === String(id));
@@ -110,7 +101,7 @@ class App extends React.Component {
         this.setState({ shownProject: shownProject });
         dataHandler.updateTask(shownProject.id, id, task)
     }
-    handleBack() {
+    handleBack = () => {
         this.setState({ shownProject: null });
     }
 
@@ -160,8 +151,5 @@ class App extends React.Component {
 
 export default App;
 
-// Move images to public
-
-
-
+// Solve bug when adding new project
 

@@ -34,7 +34,7 @@
     width: 40px;
     height: 40px;
 
-    background-image: url("../../add_symbol.png");
+    background-image: url("../../assets/images/add_symbol.png");
     background-repeat: no-repeat;
     background-color: white;
 } 
@@ -49,6 +49,6 @@
     width: 40px;
     height: 40px;
 
-    background-image: url("../../multimedia-option.png");
+    background-image: url("../../assets/images/multimedia-option.png");
     background-repeat: no-repeat;
 }

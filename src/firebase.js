@@ -86,8 +86,6 @@ const dataHandler = (() => {
   }
 
   function updateTask(projectId, taskId, task) {
-    console.log("p" + projectId, "tId" + taskId, "t" + task.name)
-    console.log("To update: " + projectsCollection.doc(projectId).collection('tasks').doc(taskId))
     projectsCollection.doc(projectId).collection('tasks').doc(taskId).update(
       {
         name: task.name,

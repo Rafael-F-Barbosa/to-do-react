@@ -15,7 +15,7 @@ const taskList = (props) => {
     return (
         <ul className={classes.TaskItems}>
             {
-                (tasks.length!==0) ?
+                (tasks) ?
                     tasks.map((task) =>
                         <TaskElement
                             key={task.id}

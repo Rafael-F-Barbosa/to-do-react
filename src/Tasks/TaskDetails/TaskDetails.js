@@ -95,14 +95,14 @@ class TaskDetails extends React.Component {
             <option value="high">high</option>
           </select>
 
-          <div>
+          <form>
             <Button 
             type={"Danger"}
             clicked={this.handleCancel}>cancel</Button>
             <Button clicked={this.handleButton}
             >{!this.props.whichTask ?'add':'update'}
               </Button>
-          </div>
+          </form>
         </form>
       )
     }

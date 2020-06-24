@@ -56,6 +56,7 @@ const dataHandler = (() => {
     return (new Promise(function (resolve) {
       projectsCollection.add({
         name: project.name,
+        tasks: [],
       }).then(function (newDoc) {
         resolve(newDoc.id)
       })

@@ -6,7 +6,7 @@ const button = (props) => {
     let type = 'submit';
     if (props.type) {
         classesNames = [classes.Button, classes[props.type]].join(' ')
-        type = '';
+        type = 'button';
     }
     return (
     <button

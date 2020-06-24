@@ -8,7 +8,6 @@ import "./reset.css";
 import "./App.css";
 import classes from './Error.module.css'
 
-
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -40,7 +39,8 @@ class App extends React.Component {
 
     handleAddTask = (task) => {
         const shownProject = { ...this.state.shownProject };
-        const tasks = [...this.state.shownProject.tasks] || [];
+        const tasks = shownProject.tasks || [];
+
         dataHandler
             .saveTasks(shownProject, {
                 name: task.name,
@@ -148,8 +148,6 @@ class App extends React.Component {
     }
 }
 
-
 export default App;
 
-// Solve bug when adding new project
 
